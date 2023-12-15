@@ -1,0 +1,48 @@
+import {useNavigation} from '@react-navigation/native';
+import {TouchableOpacity, View, Text} from 'react-native';
+import {default as FeatherIcon} from 'react-native-vector-icons/Feather';
+import styles from './TabButtonGroup.styles';
+
+function TabButtonGroup() {
+  const navigation = useNavigation();
+
+  const handleTabPress = screenName => {
+    navigation.navigate(screenName);
+  };
+
+  const renderTabBarIcons = route => {
+    let iconName;
+
+    switch (route) {
+      case 'Homepage':
+        iconName = 'home';
+        break;
+      case 'Profile':
+        iconName = 'user';
+        break;
+      default:
+        break;
+    }
+
+    return <FeatherIcon name={iconName} color={'white'} size={24} />;
+  };
+
+  return (
+    <View style={styles.container}>
+      <TouchableOpacity
+        onPress={() => handleTabPress('Homepage')}
+        style={styles.button.container}>
+        {renderTabBarIcons('Homepage')}
+        <Text style={styles.button.text}>Home</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => handleTabPress('Profile')}
+        style={styles.button.container}>
+        {renderTabBarIcons('Profile')}
+        <Text style={styles.button.text}>Profile</Text>
+      </TouchableOpacity>
+    </View>
+  );
+}
+
+export default TabButtonGroup;
