@@ -71,5 +71,5 @@ Einsteen
 
 ## Kullanıcı Profil Fotoğrafı Değiştirme Ekranı
 
-![Kullanıcı Profil Fotoğrafı Değiştirme Ekranı](./screenshots/updateProfilePhoto.png.png)
+![Kullanıcı Profil Fotoğrafı Değiştirme Ekranı](./screenshots/updateProfilePhoto.png)
 ![Kullanıcı Profil Fotoğrafı Değiştirme Ekranı Fotoğraf Seçilmiş](./screenshots/updateProfilePhoto_selected.png)
