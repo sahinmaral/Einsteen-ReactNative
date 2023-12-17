@@ -5,13 +5,19 @@ import styles from './VerifySignOutUserModalContent.styles';
 import {useToast} from 'react-native-toast-notifications';
 import auth from '@react-native-firebase/auth';
 import theme from '../../styles/theme';
+import {closeAllModals} from '../../redux/slices/modalSlice';
+import {useDispatch} from 'react-redux';
 
-function VerifySignOutUserModalContent({closeAllModals}) {
+function VerifySignOutUserModalContent() {
   const toast = useToast();
+
+  const dispatch = useDispatch();
 
   const signOutUser = async () => {
     try {
       await auth().signOut();
+
+      dispatch(closeAllModals())
 
       toast.show('You successfully signed out', {
         type: 'success',
@@ -25,15 +31,16 @@ function VerifySignOutUserModalContent({closeAllModals}) {
     }
   };
 
+  const closeModal = () => {
+    dispatch(closeAllModals());
+  };
+
   return (
-    <Modal
-      animationType="slide"
-      transparent={true}
-      onRequestClose={closeAllModals}>
+    <Modal animationType="slide" transparent={true} onRequestClose={closeModal}>
       <View style={styles.modal.container}>
         <View style={styles.modal.content}>
           <View style={styles.modal.closeButton}>
-            <TouchableOpacity onPress={closeAllModals}>
+            <TouchableOpacity onPress={closeModal}>
               <FeatherIcon name={'x'} color={'white'} size={24} />
             </TouchableOpacity>
           </View>

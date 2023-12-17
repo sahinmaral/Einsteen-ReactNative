@@ -78,7 +78,7 @@ function Login({navigation}) {
 
       navigation.navigate('App');
     } catch (error) {
-      let errorMessage = Object.keys(firebaseErrorMessages.en).includes(
+      const errorMessage = Object.keys(firebaseErrorMessages.en).includes(
         error.code,
       )
         ? firebaseErrorMessages.en[error.code]

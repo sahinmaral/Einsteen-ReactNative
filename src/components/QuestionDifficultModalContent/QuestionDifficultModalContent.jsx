@@ -3,21 +3,28 @@ import {TouchableOpacity, View, Text, Modal} from 'react-native';
 import {default as FeatherIcon} from 'react-native-vector-icons/Feather';
 import QuestionDifficult from '../../enums/QuestionDifficult';
 import styles from './QuestionDifficultModalContent.styles';
+import {useDispatch, useSelector} from 'react-redux';
+import { closeAllModals } from '../../redux/slices/modalSlice';
 
-function QuestionDifficultModalContent({
-  closeAllModals,
-  selectedDifficult,
-  setSelectedDifficult,
-}) {
+function QuestionDifficultModalContent() {
+  const {competition} = useSelector(state => state.question);
+
+  const dispatch = useDispatch();
+
+  const closeModal = () => {
+    dispatch(closeAllModals());
+  };
+
+  const setSelectedDifficult = selectedDifficult => {
+    dispatch(setSelectedDifficult(selectedDifficult));
+  };
+
   return (
-    <Modal
-      animationType="slide"
-      transparent={true}
-      onRequestClose={closeAllModals}>
+    <Modal animationType="slide" transparent={true} onRequestClose={closeModal}>
       <View style={styles.modal.container}>
         <View style={styles.modal.content}>
           <View style={styles.modal.closeButton}>
-            <TouchableOpacity onPress={closeAllModals}>
+            <TouchableOpacity onPress={closeModal}>
               <FeatherIcon name={'x'} color={'white'} size={24} />
             </TouchableOpacity>
           </View>
@@ -25,7 +32,7 @@ function QuestionDifficultModalContent({
           <TouchableOpacity
             onPress={() => setSelectedDifficult(QuestionDifficult.Easy)}
             style={
-              selectedDifficult === QuestionDifficult.Easy &&
+              competition.selected.difficult === QuestionDifficult.Easy &&
               styles.modal.options.container.selected
             }>
             <Text style={styles.modal.options.text.normal}>Easy</Text>
@@ -33,7 +40,7 @@ function QuestionDifficultModalContent({
           <TouchableOpacity
             onPress={() => setSelectedDifficult(QuestionDifficult.Medium)}
             style={
-              selectedDifficult === QuestionDifficult.Medium &&
+              competition.selected.difficult === QuestionDifficult.Medium &&
               styles.modal.options.container.selected
             }>
             <Text style={styles.modal.options.text.normal}>Medium</Text>
@@ -41,7 +48,7 @@ function QuestionDifficultModalContent({
           <TouchableOpacity
             onPress={() => setSelectedDifficult(QuestionDifficult.Hard)}
             style={
-              selectedDifficult === QuestionDifficult.Hard &&
+              competition.selected.difficult === QuestionDifficult.Hard &&
               styles.modal.options.container.selected
             }>
             <Text style={styles.modal.options.text.normal}>Hard</Text>

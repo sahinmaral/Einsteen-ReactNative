@@ -11,13 +11,10 @@ import ResultQuizType from '../../enums/ResultQuizType';
 import wonQuizBanner from '../../../assets/images/wonQuizBanner.png';
 import lostQuizBanner from '../../../assets/images/lostQuizBanner.png';
 import ranOutTimer from '../../../assets/images/ranOutTimer.png';
-import {resetCompetitionState} from '../../redux/slices/questionSlice';
 
-function ResultOfQuiz({route}) {
+function ResultOfQuiz() {
   const {competition} = useSelector(state => state.question);
   const {user} = useSelector(state => state.auth);
-
-  const {resultType, quizInformations} = route.params;
 
   const navigation = useNavigation();
 
@@ -31,48 +28,46 @@ function ResultOfQuiz({route}) {
         quizInformations: {
           totalEstimated: competition.totalEstimated,
           correctQuestionCount: competition.correctQuestion,
-          category: quizInformations.category,
-          difficult: quizInformations.difficult,
-          questionCount: quizInformations.questionCount,
+          category: competition.selected.category,
+          difficult: competition.selected.difficult,
+          questionCount: competition.selected.questionCount,
         },
       });
   };
 
   const renderResultTextByResultType = useCallback(() => {
-    if (resultType === ResultQuizType.FinishedSuccessfully) {
+    if (competition.result === ResultQuizType.FinishedSuccessfully) {
       return (
         <Text style={styles.header.text}>
           {competition.correctQuestion} of {competition.totalQuestion} correct
         </Text>
       );
-    } else if (resultType === ResultQuizType.RunOutTimer) {
+    } else if (competition.result === ResultQuizType.RunOutTimer) {
       return (
         <Text style={styles.header.text}>
           You ran out of time. Score won't be saved.
         </Text>
       );
     }
-  }, [resultType]);
+  }, [competition.result]);
 
   const renderResultBannerByResultType = useCallback(() => {
-    if (resultType === ResultQuizType.FinishedSuccessfully) {
+    if (competition.result === ResultQuizType.FinishedSuccessfully) {
       if (competition.totalQuestion / 2 >= competition.correctQuestion) {
         return <Image style={styles.banner} source={lostQuizBanner} />;
       } else {
         return <Image style={styles.banner} source={wonQuizBanner} />;
       }
-    } else if (resultType === ResultQuizType.RunOutTimer) {
+    } else if (competition.result === ResultQuizType.RunOutTimer) {
       return <Image style={styles.banner} source={ranOutTimer} />;
     }
-  }, [resultType]);
+  }, [competition.result]);
 
   useEffect(() => {
-    //dispatch(resetCompetitionState());
-
-    if (resultType === ResultQuizType.FinishedSuccessfully) {
+    if (competition.result === ResultQuizType.FinishedSuccessfully) {
       sendScore();
     }
-  }, [resultType]);
+  }, [competition.result]);
 
   return (
     <View style={styles.mainContainer}>
@@ -99,13 +94,7 @@ function ResultOfQuiz({route}) {
             <TouchableOpacity
               style={{alignItems: 'center'}}
               onPress={() => {
-                navigation.navigate('ChosenCategory', {
-                  category: quizInformations.category,
-                  selectedOptions: {
-                    difficult: quizInformations.difficult,
-                    questionCount: quizInformations.questionCount,
-                  },
-                });
+                navigation.navigate('ChosenCategory');
               }}>
               <Text style={styles.buttonGroup.button.text}>Try again ?</Text>
             </TouchableOpacity>
@@ -114,9 +103,7 @@ function ResultOfQuiz({route}) {
               <TouchableOpacity
                 style={styles.buttonGroup.button.container}
                 onPress={() =>
-                  navigation.navigate('Scoreboard', {
-                    quizInformations,
-                  })
+                  navigation.navigate('Scoreboard')
                 }>
                 <FeatherIcon name={'list'} color={'white'} size={36} />
 

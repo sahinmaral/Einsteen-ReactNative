@@ -15,21 +15,31 @@ import {
 import LottieView from 'lottie-react-native';
 import loadingAnimation from '../../../assets/animations/loading.json';
 import serverErrorBanner from '../../../assets/images/500.png';
+import {useSelector} from 'react-redux';
 
-function Scoreboard({route, navigation}) {
+function Scoreboard({navigation}) {
   const [fetchResult, setFetchResult] = useState({
     loading: true,
     error: null,
     data: null,
   });
 
-  const {quizInformations} = route.params;
+  const {competition} = useSelector(state => state.question);
 
   const getScores = async () => {
     try {
       const scoresQuery = await getScoresCollectionByQuizInformations(
-        quizInformations,
+        competition.selected,
       );
+
+      if (scoresQuery.docs.length === 0) {
+        setFetchResult({
+          ...fetchResult,
+          loading: false,
+        });
+        return;
+      }
+
       const scoreDatas = mapFirebaseDocumentArrayWithId(scoresQuery.docs);
 
       const groupedUserIds = groupByItemsOfArrayThatDoesntHaveAnyProperty(
@@ -51,6 +61,7 @@ function Scoreboard({route, navigation}) {
         loading: false,
       });
     } catch (error) {
+
       setFetchResult({
         ...fetchResult,
         error,
@@ -80,8 +91,7 @@ function Scoreboard({route, navigation}) {
       <Background type={BackgroundType.Main}>
         <View style={{flex: 1, padding: 25}}>
           <View>
-            <TouchableOpacity
-              onPress={() => navigation.goBack()}>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
               <Text style={styles.goBackButton.text}>Back</Text>
             </TouchableOpacity>
           </View>
@@ -89,8 +99,8 @@ function Scoreboard({route, navigation}) {
           <View style={styles.header.container}>
             <Text style={[styles.header.text, {fontSize: 28}]}>Scoreboard</Text>
             <Text style={styles.header.text}>
-              Top 10 players of {quizInformations.category.value} category and{' '}
-              {quizInformations.questionCount} total quiz count
+              Top 10 players of {competition.selected.category.value} category
+              and {competition.selected.questionCount} total quiz count
             </Text>
           </View>
 
@@ -110,15 +120,23 @@ function Scoreboard({route, navigation}) {
             </View>
           )}
 
-          {!fetchResult.loading && !fetchResult.error && (
-            <View style={{flex: 1}}>
-              <FlatList
-                data={modifiedScoreDatas}
-                renderItem={({item}) => <ScoreboardListItem item={item} />}
-                keyExtractor={item => item.id}
-              />
-            </View>
-          )}
+          {!fetchResult.loading &&
+            !fetchResult.error &&
+            (fetchResult.data && fetchResult.data.scores ? (
+              <View style={{flex: 1}}>
+                <FlatList
+                  data={modifiedScoreDatas}
+                  renderItem={({item}) => <ScoreboardListItem item={item} />}
+                  keyExtractor={item => item.id}
+                />
+              </View>
+            ) : (
+              <View style={{flex: 1}}>
+                <Text style={styles.subHeader.text}>
+                  There hasn't been added any scores at this quiz you selected.
+                </Text>
+              </View>
+            ))}
         </View>
       </Background>
     </View>

@@ -2,16 +2,20 @@ import {Modal, View, Text, TouchableOpacity} from 'react-native';
 import styles from './VerifyQuitQuizModalContent.styles';
 import theme from '../../styles/theme';
 import {useNavigation} from '@react-navigation/native';
+import { closeAllModals } from '../../redux/slices/modalSlice';
+import { useDispatch } from 'react-redux';
 
-function VerifyQuitQuizModalContent({modalVisible, toggleModal,quitQuiz}) {
+function VerifyQuitQuizModalContent() {
   const navigation = useNavigation();
 
+  const dispatch = useDispatch()
+
+  const closeModal = () => {
+    dispatch(closeAllModals());
+  };
+
   return (
-    <Modal
-      animationType="slide"
-      transparent={true}
-      visible={modalVisible}
-      onRequestClose={toggleModal}>
+    <Modal animationType="slide" transparent={true} onRequestClose={closeModal}>
       <View style={styles.modal.container}>
         <View style={styles.modal.content}>
           <Text style={styles.modal.header}>
@@ -24,7 +28,8 @@ function VerifyQuitQuizModalContent({modalVisible, toggleModal,quitQuiz}) {
                 {backgroundColor: theme.colors.lightGreen},
               ]}
               onPress={() => {
-                navigation.goBack();
+                closeModal()
+                navigation.navigate("Homepage")
               }}>
               <Text style={styles.modal.options.text.normal}>Yes</Text>
             </TouchableOpacity>
@@ -33,7 +38,7 @@ function VerifyQuitQuizModalContent({modalVisible, toggleModal,quitQuiz}) {
                 styles.modal.options.container.normal,
                 {backgroundColor: theme.colors.lightRed},
               ]}
-              onPress={toggleModal}>
+              onPress={closeModal}>
               <Text style={styles.modal.options.text.normal}>No</Text>
             </TouchableOpacity>
           </View>

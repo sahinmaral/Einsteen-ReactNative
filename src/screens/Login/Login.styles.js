@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
       paddingHorizontal: 0,
       paddingBottom: 5,
       fontFamily: 'ABeeZee-Regular',
-      color: theme.colors.white,
+      color: theme.colors.white
     },
     error: {
       marginTop:5,

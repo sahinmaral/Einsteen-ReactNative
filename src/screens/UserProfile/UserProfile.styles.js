@@ -8,7 +8,6 @@ const styles = StyleSheet.create({
   header: {
     text: {
       fontSize: 28,
-      letterSpacing: 1.5,
       fontFamily: 'Anton',
       color: theme.colors.white,
       textTransform: 'uppercase',

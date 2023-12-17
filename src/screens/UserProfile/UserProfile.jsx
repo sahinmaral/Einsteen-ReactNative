@@ -7,9 +7,7 @@ import defaultUserThumbnail from '../../../assets/images/defaultUserThumbnail.pn
 import theme from '../../styles/theme';
 import {default as FeatherIcon} from 'react-native-vector-icons/Feather';
 
-function UserProfile({route, navigation}) {
-  const dispatch = useDispatch();
-
+function UserProfile({navigation}) {
   const {user} = useSelector(state => state.auth);
 
   return (
@@ -49,7 +47,9 @@ function UserProfile({route, navigation}) {
 
           <View style={styles.buttonGroup.container}>
             <View style={styles.buttonGroup.row}>
-              <TouchableOpacity style={styles.buttonGroup.button.container}>
+              <TouchableOpacity
+                style={styles.buttonGroup.button.container}
+                onPress={() => navigation.navigate('UpdatePassword')}>
                 <FeatherIcon name={'key'} color={'white'} size={36} />
                 <Text style={styles.buttonGroup.button.text}>
                   Change Password

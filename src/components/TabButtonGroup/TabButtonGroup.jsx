@@ -17,7 +17,7 @@ function TabButtonGroup() {
       case 'Homepage':
         iconName = 'home';
         break;
-      case 'Profile':
+      case 'UserProfile':
         iconName = 'user';
         break;
       default:
@@ -36,9 +36,9 @@ function TabButtonGroup() {
         <Text style={styles.button.text}>Home</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={() => handleTabPress('Profile')}
+        onPress={() => handleTabPress('UserProfile')}
         style={styles.button.container}>
-        {renderTabBarIcons('Profile')}
+        {renderTabBarIcons('UserProfile')}
         <Text style={styles.button.text}>Profile</Text>
       </TouchableOpacity>
     </View>

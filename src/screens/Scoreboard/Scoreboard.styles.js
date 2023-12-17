@@ -31,9 +31,15 @@ const styles = StyleSheet.create({
       letterSpacing: 1.5,
       fontFamily: 'Anton',
       color: theme.colors.white,
-      letterSpacing: 2,
     },
   },
+  subHeader:{
+    text: {
+      fontSize: 14,
+      fontFamily: 'ABeeZee-Regular',
+      color: theme.colors.white,
+    },
+  }
 });
 
 export default styles;

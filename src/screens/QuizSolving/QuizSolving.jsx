@@ -14,17 +14,17 @@ import {
   increaseCorrectQuestion,
   increaseTotalEstimated,
   moveToNextQuestion,
+  setResultTypeOfCompetition,
 } from '../../redux/slices/questionSlice';
 import {formatTime} from '../../helpers/timerMethods';
+import {openModalByType} from '../../redux/slices/modalSlice';
+import ModalType from '../../enums/ModalType';
 
-function QuizSolving({route}) {
-  const initialQuizTimer = 120;
+function QuizSolving() {
+  const initialQuizTimer = 1;
 
   const [secondsOfTimer, setSecondsOfTimer] = useState(initialQuizTimer);
-  const [modalVisible, setModalVisible] = useState(false);
   const [answerState, setAnswerState] = useState(AnswerState.NotAnswered);
-
-  const {quizInformations} = route.params
 
   const timerIntervalRef = useRef(null);
 
@@ -32,15 +32,6 @@ function QuizSolving({route}) {
   const navigation = useNavigation();
 
   const {questions, competition} = useSelector(state => state.question);
-
-  const toggleModal = () => {
-    setModalVisible(!modalVisible);
-  };
-
-  const handleBackButton = () => {
-    toggleModal();
-    return true;
-  };
 
   const checkCorrectAnswer = selectedAnswer => {
     const correctAnswer = currentQuestion.correct_answer;
@@ -69,6 +60,7 @@ function QuizSolving({route}) {
   }, [answerState]);
 
   const answersOfQuestion = useMemo(() => {
+    console.log(currentQuestion);
     const answers = [...currentQuestion.incorrect_answers];
     answers.push(currentQuestion.correct_answer);
     return shuffleArray(answers);
@@ -85,20 +77,15 @@ function QuizSolving({route}) {
       });
     }, 1000);
 
-    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
-
     return () => {
       clearInterval(timerIntervalRef.current);
-      BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
     };
   }, []);
 
   useEffect(() => {
     if (secondsOfTimer === 0) {
-      navigation.navigate('ResultOfQuiz', {
-        resultType: ResultQuizType.RunOutTimer,
-        quizInformations
-      });
+      dispatch(setResultTypeOfCompetition(ResultQuizType.RunOutTimer));
+      navigation.navigate('ResultOfQuiz');
     }
   }, [secondsOfTimer]);
 
@@ -118,10 +105,8 @@ function QuizSolving({route}) {
       setSecondsOfTimer(initialQuizTimer);
       setAnswerState(AnswerState.NotAnswered);
     } else {
-      navigation.navigate('ResultOfQuiz', {
-        resultType: ResultQuizType.FinishedSuccessfully,
-        quizInformations
-      });
+      dispatch(setResultTypeOfCompetition(ResultQuizType.FinishedSuccessfully));
+      navigation.navigate('ResultOfQuiz');
     }
   };
 
@@ -135,7 +120,9 @@ function QuizSolving({route}) {
         <View>
           <View>
             <TouchableOpacity
-              onPress={toggleModal}
+              onPress={() =>
+                dispatch(openModalByType(ModalType.VerifyQuitQuiz))
+              }
               style={styles.goBackButton.container}>
               <Text style={styles.goBackButton.text}>Back</Text>
             </TouchableOpacity>
@@ -184,11 +171,6 @@ function QuizSolving({route}) {
             </View>
           )}
         </View>
-
-        <VerifyQuitQuizModalContent
-          modalVisible={modalVisible}
-          toggleModal={toggleModal}
-        />
 
         <View style={styles.timer.container}>
           <View

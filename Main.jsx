@@ -1,6 +1,5 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import {
-  CommonActions,
   NavigationContainer,
   getFocusedRouteNameFromRoute,
   useNavigation,
@@ -16,6 +15,7 @@ import Scoreboard from './src/screens/Scoreboard';
 import ForgetPassword from './src/screens/ForgetPassword';
 import Login from './src/screens/Login';
 import UserProfile from './src/screens/UserProfile';
+import UpdatePassword from './src/screens/UpdatePassword';
 import {Provider, useDispatch, useSelector} from 'react-redux';
 import store from './src/redux/store';
 import {useEffect, useMemo, useState} from 'react';
@@ -23,27 +23,31 @@ import {View} from 'react-native';
 import {ToastProvider} from 'react-native-toast-notifications';
 import auth from '@react-native-firebase/auth';
 import {removeUser} from './src/redux/slices/authSlice';
+import ModalNavigator from './src/components/ModalNavigator/ModalNavigator';
 
 const Stack = createStackNavigator();
 
 function AppTabNavigatorRoutes({route}) {
-  const notDesiredAreas = ['QuizSolving', 'ResultOfQuiz'];
+  const notDesiredAreasToShowTab = ['QuizSolving', 'ResultOfQuiz'];
 
   const focusedRouteName = getFocusedRouteNameFromRoute(route);
+
   const shouldHideTab = useMemo(() => {
-    return notDesiredAreas.includes(focusedRouteName);
+    return notDesiredAreasToShowTab.includes(focusedRouteName);
   }, [focusedRouteName]);
 
   return (
     <View style={{flex: 1}}>
       <Stack.Navigator screenOptions={{headerShown: false}}>
         <Stack.Screen name="Homepage" component={CategoriesOfQuestion} />
-        <Stack.Screen name="Profile" component={UserProfile} />
         <Stack.Screen name="ChosenCategory" component={ChosenCategory} />
         <Stack.Screen name="QuizSolving" component={QuizSolving} />
         <Stack.Screen name="ResultOfQuiz" component={ResultOfQuiz} />
         <Stack.Screen name="Scoreboard" component={Scoreboard} />
+        <Stack.Screen name="UserProfile" component={UserProfile} />
+        <Stack.Screen name="UpdatePassword" component={UpdatePassword} />
       </Stack.Navigator>
+      <ModalNavigator currentRoute={focusedRouteName} />
       {!shouldHideTab && <TabButtonGroup />}
     </View>
   );
