@@ -16,7 +16,6 @@ import ForgetPassword from './src/screens/ForgetPassword';
 import Login from './src/screens/Login';
 import UserProfile from './src/screens/UserProfile';
 import UpdatePassword from './src/screens/UpdatePassword';
-import UpdateProfilePhoto from './src/screens/UpdateProfilePhoto';
 import {Provider, useDispatch, useSelector} from 'react-redux';
 import store from './src/redux/store';
 import {useEffect, useMemo, useState} from 'react';
@@ -47,7 +46,6 @@ function AppTabNavigatorRoutes({route}) {
         <Stack.Screen name="Scoreboard" component={Scoreboard} />
         <Stack.Screen name="UserProfile" component={UserProfile} />
         <Stack.Screen name="UpdatePassword" component={UpdatePassword} />
-        <Stack.Screen name="UpdateProfilePhoto" component={UpdateProfilePhoto} />
       </Stack.Navigator>
       <ModalNavigator currentRoute={focusedRouteName} />
       {!shouldHideTab && <TabButtonGroup />}

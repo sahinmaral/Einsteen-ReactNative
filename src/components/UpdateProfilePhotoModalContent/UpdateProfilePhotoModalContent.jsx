@@ -11,6 +11,7 @@ import storage from '@react-native-firebase/storage';
 import auth from '@react-native-firebase/auth';
 import useLoadingIndicator from '../../hooks/useLoadingIndicator';
 import {setUser} from '../../redux/slices/authSlice';
+import firestore from '@react-native-firebase/firestore';
 
 function UpdateProfilePhotoModalContent() {
   const dispatch = useDispatch();
@@ -56,6 +57,13 @@ function UpdateProfilePhotoModalContent() {
       await currentUser.updateProfile({
         photoURL: null,
       });
+
+      var usersRef = firestore().collection('users');
+
+      const updateObject = {};
+      updateObject['photoURL'] = firestore.FieldValue.delete();
+
+      await usersRef.doc(currentUser.uid).update(updateObject);
 
       dispatch(
         setUser({
@@ -127,6 +135,13 @@ function UpdateProfilePhotoModalContent() {
       await currentUser.updateProfile({
         photoURL: downloadURL,
       });
+
+      var usersRef = firestore().collection('users');
+
+      const updateObject = {};
+      updateObject['photoURL'] = downloadURL;
+
+      await usersRef.doc(currentUser.uid).update(updateObject);
 
       dispatch(
         setUser({

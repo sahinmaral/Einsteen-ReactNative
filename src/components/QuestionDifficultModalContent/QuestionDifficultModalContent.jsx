@@ -4,7 +4,7 @@ import {default as FeatherIcon} from 'react-native-vector-icons/Feather';
 import QuestionDifficult from '../../enums/QuestionDifficult';
 import styles from './QuestionDifficultModalContent.styles';
 import {useDispatch, useSelector} from 'react-redux';
-import { closeAllModals } from '../../redux/slices/modalSlice';
+import {closeAllModals} from '../../redux/slices/modalSlice';
 
 function QuestionDifficultModalContent() {
   const {competition} = useSelector(state => state.question);
@@ -29,6 +29,14 @@ function QuestionDifficultModalContent() {
             </TouchableOpacity>
           </View>
           <Text style={styles.modal.header}>Select Difficult</Text>
+          <TouchableOpacity
+            onPress={() => setSelectedDifficult(QuestionDifficult.Any)}
+            style={
+              competition.selected.difficult === QuestionDifficult.Any &&
+              styles.modal.options.container.selected
+            }>
+            <Text style={styles.modal.options.text.normal}>Any</Text>
+          </TouchableOpacity>
           <TouchableOpacity
             onPress={() => setSelectedDifficult(QuestionDifficult.Easy)}
             style={

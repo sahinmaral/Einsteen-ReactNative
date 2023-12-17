@@ -60,7 +60,6 @@ function QuizSolving() {
   }, [answerState]);
 
   const answersOfQuestion = useMemo(() => {
-
     const answers = [...currentQuestion.incorrect_answers];
     answers.push(currentQuestion.correct_answer);
     return shuffleArray(answers);
@@ -143,6 +142,7 @@ function QuizSolving() {
             {answersOfQuestion.map((answer, index) => {
               return (
                 <TouchableOpacity
+                  disabled={answerState !== AnswerState.NotAnswered}
                   onPress={() => checkCorrectAnswer(answer)}
                   style={styles.content.answers.container}
                   key={index}>
