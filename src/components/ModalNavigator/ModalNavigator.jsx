@@ -7,6 +7,7 @@ import VerifySignOutUserModalContent from '../VerifySignOutUserModalContent';
 import QuestionDifficultModalContent from '../QuestionDifficultModalContent';
 import QuestionCountModalContent from '../QuestionCountModalContent';
 import VerifyQuitQuizModalContent from '../VerifyQuitQuizModalContent';
+import UpdateProfilePhotoModalContent from '../UpdateProfilePhotoModalContent';
 import {useNavigation} from '@react-navigation/native';
 
 function ModalNavigator({currentRoute}) {
@@ -68,6 +69,8 @@ function ModalNavigator({currentRoute}) {
     return <QuestionCountModalContent />;
   } else if (modal.visibility.verifyQuitQuiz) {
     return <VerifyQuitQuizModalContent />;
+  } else if (modal.visibility.updateProfilePhoto) {
+    return <UpdateProfilePhotoModalContent />;
   } else {
     return null;
   }

@@ -25,6 +25,7 @@ const styles = StyleSheet.create({
         height: 150,
         width: 150,
         borderRadius: 75,
+        resizeMode: "stretch",
         backgroundColor: theme.colors.white,
       },
       text: {
@@ -33,25 +34,38 @@ const styles = StyleSheet.create({
       },
     },
   },
-  buttonGroup: {
-    container: {flex: 0.6, justifyContent: 'flex-end', padding: 10},
-    row: {
-      flexDirection: 'row',
+  updateProfilePhotoButton: {
+    position: 'absolute',
+    bottom: 5,
+    right: 5,
+    borderWidth: 1,
+    borderRadius: 20,
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: theme.colors.white,
+  },
+  menu: {
+    container: {
       gap: 10,
+      padding: 10,
+      flex: 0.6,
     },
     button: {
       container: {
-        flex: 0.5,
-        alignItems: 'center',
-        justifyContent: 'center',
+        flexDirection: 'row',
         gap: 10,
-        backgroundColor: theme.colors.darkPurple,
+        alignItems: 'center',
+        borderRadius: 10,
+        paddingHorizontal: 10,
+        paddingVertical: 10,
+        backgroundColor: theme.colors.white,
       },
       text: {
-        color: theme.colors.white,
-        textAlign: 'center',
-        fontSize: 20,
+        fontSize: 14,
         fontFamily: 'ABeeZee-Regular',
+        color: theme.colors.black,
       },
     },
   },

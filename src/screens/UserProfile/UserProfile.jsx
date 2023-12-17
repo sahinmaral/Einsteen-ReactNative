@@ -5,10 +5,19 @@ import styles from './UserProfile.styles';
 import {useDispatch, useSelector} from 'react-redux';
 import defaultUserThumbnail from '../../../assets/images/defaultUserThumbnail.png';
 import theme from '../../styles/theme';
-import {default as FeatherIcon} from 'react-native-vector-icons/Feather';
+import {default as MaterialCommunityIcons} from 'react-native-vector-icons/MaterialCommunityIcons';
+import {openModalByType} from '../../redux/slices/modalSlice';
+import ModalType from '../../enums/ModalType';
+import {useMemo} from 'react';
 
 function UserProfile({navigation}) {
   const {user} = useSelector(state => state.auth);
+
+  const dispatch = useDispatch();
+
+  const userProfileThumbnailSource = useMemo(() => {
+    return !user.photoURL ? defaultUserThumbnail : {uri: user.photoURL};
+  }, [user.photoURL]);
 
   return (
     <View style={styles.mainContainer}>
@@ -25,10 +34,23 @@ function UserProfile({navigation}) {
           </View>
 
           <View style={styles.header.informations.container}>
-            <Image
-              style={styles.header.informations.thumbnail}
-              source={defaultUserThumbnail}
-            />
+            <View>
+              <Image
+                style={styles.header.informations.thumbnail}
+                source={userProfileThumbnailSource}
+              />
+              <TouchableOpacity
+                onPress={() =>
+                  dispatch(openModalByType(ModalType.UpdateProfilePhoto))
+                }
+                style={styles.updateProfilePhotoButton}>
+                <MaterialCommunityIcons
+                  name={'camera-plus'}
+                  color={'black'}
+                  size={25}
+                />
+              </TouchableOpacity>
+            </View>
             <Text
               style={[
                 styles.header.informations.text,
@@ -45,23 +67,22 @@ function UserProfile({navigation}) {
             </Text>
           </View>
 
-          <View style={styles.buttonGroup.container}>
-            <View style={styles.buttonGroup.row}>
-              <TouchableOpacity
-                style={styles.buttonGroup.button.container}
-                onPress={() => navigation.navigate('UpdatePassword')}>
-                <FeatherIcon name={'key'} color={'white'} size={36} />
-                <Text style={styles.buttonGroup.button.text}>
-                  Change Password
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.buttonGroup.button.container}>
-                <FeatherIcon name={'camera'} color={'white'} size={36} />
-                <Text style={styles.buttonGroup.button.text}>
-                  Change Profile Photo
-                </Text>
-              </TouchableOpacity>
-            </View>
+          <View style={styles.menu.container}>
+            <TouchableOpacity
+              style={styles.menu.button.container}
+              onPress={() => navigation.navigate('UpdatePassword')}>
+              <MaterialCommunityIcons name={'lock'} color={'black'} size={25} />
+              <Text style={styles.menu.button.text}>Change Password</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.menu.button.container}>
+              <MaterialCommunityIcons
+                name={'format-list-numbered'}
+                color={'black'}
+                size={25}
+              />
+              <Text style={styles.menu.button.text}>See High Scores</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </Background>

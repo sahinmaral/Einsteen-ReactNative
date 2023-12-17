@@ -21,7 +21,7 @@ import {openModalByType} from '../../redux/slices/modalSlice';
 import ModalType from '../../enums/ModalType';
 
 function QuizSolving() {
-  const initialQuizTimer = 1;
+  const initialQuizTimer = 120;
 
   const [secondsOfTimer, setSecondsOfTimer] = useState(initialQuizTimer);
   const [answerState, setAnswerState] = useState(AnswerState.NotAnswered);
@@ -60,7 +60,7 @@ function QuizSolving() {
   }, [answerState]);
 
   const answersOfQuestion = useMemo(() => {
-    console.log(currentQuestion);
+
     const answers = [...currentQuestion.incorrect_answers];
     answers.push(currentQuestion.correct_answer);
     return shuffleArray(answers);

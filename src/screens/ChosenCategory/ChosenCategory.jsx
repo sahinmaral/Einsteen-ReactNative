@@ -2,9 +2,9 @@ import {View, Text, TouchableOpacity, Image} from 'react-native';
 import Background from '../../components/Background';
 import BackgroundType from '../../enums/BackgroundType';
 import styles from './ChosenCategory.styles';
-import {useFocusEffect} from '@react-navigation/native';
+
 import questionMarkImage from '../../../assets/images/questionMark.png';
-import {useCallback} from 'react';
+import {useState} from 'react';
 import {fetchQuestions} from '../../services/QuizAPIService';
 import {useDispatch, useSelector} from 'react-redux';
 import {
@@ -12,13 +12,23 @@ import {
   setTotalQuestionOfCompetition,
 } from '../../redux/slices/questionSlice';
 import he from 'he';
+import {useToast} from 'react-native-toast-notifications';
+import useLoadingIndicator from '../../hooks/useLoadingIndicator';
+import {default as FeatherIcon} from 'react-native-vector-icons/Feather';
 
 function ChosenCategory({navigation}) {
   const {competition} = useSelector(state => state.question);
 
   const dispatch = useDispatch();
+  const toast = useToast();
+
+  const [fetchLoading, setFetchLoading] = useState(false);
+
+  const loadingIndicator = useLoadingIndicator(fetchLoading);
 
   const getQuestions = async () => {
+    setFetchLoading(true);
+
     fetchQuestions(
       competition.selected.questionCount,
       competition.selected.difficult,
@@ -26,21 +36,47 @@ function ChosenCategory({navigation}) {
     )
       .then(response => {
         const responseResult = response.data;
+
         dispatch(setQuestions(responseResult.results));
         dispatch(
           setTotalQuestionOfCompetition(competition.selected.questionCount),
         );
+
+        setFetchLoading(false);
+
+        navigation.navigate('QuizSolving');
       })
       .catch(error => {
-        console.log(error);
+        setFetchLoading(false);
+
+        switch (error.response.status) {
+          case 429:
+            toast.show(
+              "You are trying to enter quiz several times. It's time to slow down.",
+              {
+                type: 'warning',
+                placement: 'top',
+              },
+            );
+            break;
+          case 500:
+            toast.show(
+              'There is a problem during fetching questions. Please try again later.',
+              {
+                type: 'warning',
+                placement: 'top',
+              },
+            );
+            break;
+          default:
+            toast.show(error, {
+              type: 'warning',
+              placement: 'top',
+            });
+            break;
+        }
       });
   };
-
-  useFocusEffect(
-    useCallback(() => {
-      getQuestions();
-    }, []),
-  );
 
   return (
     <View style={styles.mainContainer}>
@@ -83,8 +119,16 @@ function ChosenCategory({navigation}) {
         <View style={styles.buttonGroup.container}>
           <TouchableOpacity
             style={styles.buttonGroup.submitButton.container}
-            onPress={() => navigation.navigate('QuizSolving')}>
+            onPress={getQuestions}>
             <Text style={styles.buttonGroup.submitButton.text}>Start</Text>
+            {fetchLoading && (
+              <View
+                style={{
+                  transform: [{rotate: `${loadingIndicator.rotation}deg`}],
+                }}>
+                <FeatherIcon name="rotate-cw" color={'white'} size={24} />
+              </View>
+            )}
           </TouchableOpacity>
 
           <TouchableOpacity

@@ -54,6 +54,8 @@ const styles = StyleSheet.create({
     submitButton: {
       container: {
         flex:0.45,
+        gap:10,
+        flexDirection: "row",
         backgroundColor: theme.colors.darkPurple,
         justifyContent: 'center',
         alignItems: 'center',

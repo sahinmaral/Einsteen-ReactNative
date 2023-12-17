@@ -9,6 +9,7 @@ export const modalSlice = createSlice({
       chooseQuestionCount: false,
       verifySignedOut: false,
       verifyQuitQuiz: false,
+      updateProfilePhoto: false,
     },
   },
   reducers: {
@@ -20,6 +21,7 @@ export const modalSlice = createSlice({
             chooseDifficult: false,
             chooseQuestionCount: false,
             verifyQuitQuiz: false,
+            updateProfilePhoto: false,
           };
           break;
         case ModalType.ChooseDifficult:
@@ -28,6 +30,7 @@ export const modalSlice = createSlice({
             chooseQuestionCount: false,
             verifySignedOut: false,
             verifyQuitQuiz: false,
+            updateProfilePhoto: false,
           };
           break;
         case ModalType.ChooseQuestionCount:
@@ -36,11 +39,22 @@ export const modalSlice = createSlice({
             chooseDifficult: false,
             verifySignedOut: false,
             verifyQuitQuiz: false,
+            updateProfilePhoto: false,
           };
           break;
         case ModalType.VerifyQuitQuiz:
           state.visibility = {
             verifyQuitQuiz: true,
+            chooseDifficult: false,
+            chooseQuestionCount: false,
+            verifySignedOut: false,
+            updateProfilePhoto: false,
+          };
+          break;
+        case ModalType.UpdateProfilePhoto:
+          state.visibility = {
+            updateProfilePhoto: true,
+            verifyQuitQuiz: false,
             chooseDifficult: false,
             chooseQuestionCount: false,
             verifySignedOut: false,
@@ -52,10 +66,11 @@ export const modalSlice = createSlice({
     },
     closeAllModals: state => {
       state.visibility = {
-        chooseDifficult: false,
         chooseQuestionCount: false,
+        chooseDifficult: false,
         verifySignedOut: false,
         verifyQuitQuiz: false,
+        updateProfilePhoto: false,
       };
     },
   },
