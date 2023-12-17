@@ -1,79 +1,75 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# Proje Adı
 
-# Getting Started
+Einsteen
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+# Açıklama
 
-## Step 1: Start the Metro Server
+* Sonra yapılacaktır.
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+# Uygulamanın çalıştırılması ve test edilmesi hakkında döküman
 
-To start Metro, run the following command from the _root_ of your React Native project:
+[Uygulamanın çalıştırılması ve test edilmesi hakkında README](./README_APP.md)
 
-```bash
-# using npm
-npm start
+# Ekran Görüntüleri
 
-# OR using Yarn
-yarn start
-```
+## Başlangıç Ekranı
 
-## Step 2: Start your Application
+![Başlangıç Ekranı](./screenshots/welcome.png)
 
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
+## Giriş Ekranı
 
-### For Android
+![Giriş Ekranı](./screenshots/login.png)
 
-```bash
-# using npm
-npm run android
+## Kayıt Olma Ekranı
 
-# OR using Yarn
-yarn android
-```
+![Kayıt Olma Ekranı](./screenshots/signUp.png)
 
-### For iOS
+## Giriş Yaptıktan Sonra Ana Uygulama Ekranı
 
-```bash
-# using npm
-npm run ios
+![Giriş Yaptıktan Sonra Ana Uygulama Ekranı](./screenshots/homepage.png)
 
-# OR using Yarn
-yarn ios
-```
+## Yarışma Zorluk ve Soru Adeti Modal
 
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
+![Yarışma Zorluk Modal](./screenshots/quizDifficult.png)
+![Yarışma Soru Adeti Modal](./screenshots/quizQuestionCount.png)
 
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
+## Kategori Seçildikten Sonra Yarışmaya Başlamadan Önce Bilgilendirme Ekranı
 
-## Step 3: Modifying your App
+![Kategori Seçildikten Sonra Yarışmaya Başlamadan Önce Bilgilendirme Ekranı](./screenshots/chosenCategory.png)
 
-Now that you have successfully run the app, let's modify it.
+## Yarışma Ekranı
 
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
+![Yarışma Ekranı](./screenshots/quizSolving.png)
+![Yarışma Ekranı Doğru Cevap](./screenshots/quizSolving_correct.png)
+![Yarışma Ekranı Yanlış Cevap](./screenshots/quizSolving_wrong.png)
 
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
+## Yarışmadan Ayrılmaya Çalışırken Modal
 
-## Congratulations! :tada:
+![Yarışmadan Ayrılmaya Çalışırken Modal](./screenshots/quizSolving_verifyQuitQuiz.png)
 
-You've successfully run and modified your React Native App. :partying_face:
+## Yarışma Sonuçları Ekranı
 
-### Now what?
+![Yarışma Sonuçları Ekranı Süre Bitti](./screenshots/resultOfQuiz_runOutOfTime.png)
+![Yarışma Sonuçları Ekranı Başarılı Tamamladı](./screenshots/resultOfQuiz_finishedSuccessfully.png)
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
+## Scoreboard Ekranı
 
-# Troubleshooting
+![Scoreboard Ekranı Boş](./screenshots/scoreboard_empty.png)
+![Scoreboard Ekranı](./screenshots/scoreboard.png)
 
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+## Uygulamadan Çıkış Yaptıktan Sonra Modal
 
-# Learn More
+![Uygulamadan Çıkış Yaptıktan Sonra Modal](./screenshots/verifySignOut.png)
 
-To learn more about React Native, take a look at the following resources:
+## Kullanıcı Hakkında Ekran
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+![Kullanıcı Hakkında Ekran](./screenshots/userProfile.png)
+
+## Kullanıcı Şifre Değiştirme Ekranı
+
+![Kullanıcı Şifre Değiştirme Ekranı](./screenshots/updatePassword.png)
+
+## Kullanıcı Profil Fotoğrafı Değiştirme Ekranı
+
+![Kullanıcı Profil Fotoğrafı Değiştirme Ekranı](./screenshots/updateProfilePhoto.png.png)
+![Kullanıcı Profil Fotoğrafı Değiştirme Ekranı Fotoğraf Seçilmiş](./screenshots/updateProfilePhoto_selected.png)
