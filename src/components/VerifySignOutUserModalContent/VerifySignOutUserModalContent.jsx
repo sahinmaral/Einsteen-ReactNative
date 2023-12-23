@@ -7,6 +7,7 @@ import auth from '@react-native-firebase/auth';
 import theme from '../../styles/theme';
 import {closeAllModals} from '../../redux/slices/modalSlice';
 import {useDispatch} from 'react-redux';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 function VerifySignOutUserModalContent() {
   const toast = useToast();
@@ -15,14 +16,25 @@ function VerifySignOutUserModalContent() {
 
   const signOutUser = async () => {
     try {
-      await auth().signOut();
+      const currentUser = auth().currentUser;
 
-      dispatch(closeAllModals())
+      if (currentUser) {
+        const providerIdWhichUserSignedIn =
+          currentUser.providerData[0].providerId;
 
-      toast.show('You successfully signed out', {
-        type: 'success',
-        placement: 'top',
-      });
+        if (providerIdWhichUserSignedIn === 'google.com') {
+          await GoogleSignin.signOut();
+        }
+
+        await auth().signOut();
+
+        dispatch(closeAllModals());
+
+        toast.show('You successfully signed out', {
+          type: 'success',
+          placement: 'top',
+        });
+      }
     } catch (error) {
       toast.show(JSON.stringify(error), {
         type: 'warning',

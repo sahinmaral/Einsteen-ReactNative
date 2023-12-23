@@ -1,4 +1,8 @@
-import {View, Text, TextInput} from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+} from 'react-native';
 import styles from './Login.styles';
 import Background from '../../components/Background';
 import {useState} from 'react';
@@ -18,16 +22,13 @@ import {setUser} from '../../redux/slices/authSlice';
 import {mapFirebaseDocumentObjectWithId} from '../../helpers/objectMethods';
 
 function Login({navigation}) {
-  const [fetchResult, setFetchResult] = useState({
-    error: null,
-    loading: false,
-  });
+  const [fetchResult, setFetchResult] = useState(false);
 
   const toast = useToast();
 
   const dispatch = useDispatch();
 
-  const loadingIndicator = useLoadingIndicator(fetchResult.loading);
+  const loadingIndicator = useLoadingIndicator(fetchResult);
 
   const loginUserWithAuthentication = async (email, password) => {
     return auth().signInWithEmailAndPassword(email, password);
@@ -39,10 +40,7 @@ function Login({navigation}) {
 
   const loginUser = async values => {
     try {
-      setFetchResult({
-        ...fetchResult,
-        loading: true,
-      });
+      setFetchResult(true);
 
       const savedUser = await loginUserWithAuthentication(
         values.email,
@@ -56,15 +54,12 @@ function Login({navigation}) {
         savedUserAdditionalInformationsDocumentSnapshot,
       );
 
-      setFetchResult({
-        ...fetchResult,
-        loading: false,
-      });
+      setFetchResult(false);
 
       dispatch(
         setUser({
           id: savedUser.user.uid,
-          email: values.email,
+          email: savedUser.user.email,
           photoURL: savedUser.user.photoURL,
           firstName: savedUserAdditionalInformations.firstName,
           lastName: savedUserAdditionalInformations.lastName,
@@ -84,10 +79,7 @@ function Login({navigation}) {
         ? firebaseErrorMessages.en[error.code]
         : JSON.stringify(error);
 
-      setFetchResult({
-        error: errorMessage,
-        loading: false,
-      });
+      setFetchResult(false);
 
       toast.show(errorMessage, {
         type: 'warning',
@@ -159,9 +151,9 @@ function Login({navigation}) {
             <TouchableOpacity
               style={styles.submitButton.container}
               onPress={handleSubmit}
-              disabled={fetchResult.loading}>
+              disabled={fetchResult}>
               <Text style={styles.submitButton.text}>OKAY</Text>
-              {fetchResult.loading && (
+              {fetchResult && (
                 <View
                   style={{
                     transform: [{rotate: `${loadingIndicator.rotation}deg`}],

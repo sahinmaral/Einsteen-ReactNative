@@ -1,11 +1,18 @@
-import {View, Text, TouchableOpacity, TextInput} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  TextInput,
+  KeyboardAvoidingView,
+  ScrollView,
+} from 'react-native';
 import Background from '../../components/Background';
 import BackgroundType from '../../enums/BackgroundType';
 import styles from './UpdatePassword.styles';
-import {useSelector} from 'react-redux';
 import {Formik} from 'formik';
 import theme from '../../styles/theme';
 import useLoadingIndicator from '../../hooks/useLoadingIndicator';
+import useKeyboardState from '../../hooks/useKeyboardState';
 import {useState} from 'react';
 import {default as FeatherIcon} from 'react-native-vector-icons/Feather';
 import UpdatePasswordSchema from '../../schemas/UpdatePasswordSchema';
@@ -16,6 +23,7 @@ function UpdatePassword({navigation}) {
   const [isFetchExecuted, setIsFetchExecuted] = useState(false);
 
   const loadingIndicator = useLoadingIndicator(isFetchExecuted);
+  const {isKeyboardVisible} = useKeyboardState();
 
   const toast = useToast();
 
@@ -77,57 +85,71 @@ function UpdatePassword({navigation}) {
         }) => (
           <Background type={BackgroundType.Main}>
             <View style={{flex: 1}}>
-              <View style={styles.form.container}>
-                <Text style={styles.header.text}>Update Password</Text>
-
-                <TextInput
-                  onChangeText={handleChange('currentPassword')}
-                  onBlur={handleBlur('currentPassword')}
-                  value={values.currentPassword}
-                  secureTextEntry
-                  placeholder="Current Password"
-                  style={styles.form.input.container}
-                  placeholderTextColor={theme.colors.white}
-                />
-
-                {errors.currentPassword && touched.currentPassword ? (
-                  <Text style={styles.form.error}>
-                    *{errors.currentPassword}
-                  </Text>
-                ) : null}
-
-                <TextInput
-                  onChangeText={handleChange('newPassword')}
-                  onBlur={handleBlur('newPassword')}
-                  value={values.newPassword}
-                  secureTextEntry
-                  placeholder="New Password"
-                  style={styles.form.input.container}
-                  placeholderTextColor={theme.colors.white}
-                />
-
-                {errors.newPassword && touched.newPassword ? (
-                  <Text style={styles.form.error}>*{errors.newPassword}</Text>
-                ) : null}
-
-                <TextInput
-                  onChangeText={handleChange('newPasswordRepeat')}
-                  onBlur={handleBlur('newPasswordRepeat')}
-                  value={values.newPasswordRepeat}
-                  secureTextEntry
-                  placeholder="New Password Repeat"
-                  style={styles.form.input.container}
-                  placeholderTextColor={theme.colors.white}
-                />
-
-                {errors.newPasswordRepeat && touched.newPasswordRepeat ? (
-                  <Text style={styles.form.error}>
-                    *{errors.newPasswordRepeat}
-                  </Text>
-                ) : null}
+              <View style={{flex: 0.1}}>
+                <TouchableOpacity
+                  onPress={() => navigation.goBack()}
+                  style={styles.goBackButton.container}>
+                  <Text style={styles.goBackButton.text}>Back</Text>
+                </TouchableOpacity>
               </View>
 
-              <View style={{flex: 0.1, justifyContent: 'flex-end'}}>
+              <KeyboardAvoidingView behavior={'padding'} style={{flex: 0.8}}>
+                <ScrollView style={styles.form.container}>
+                  <Text style={styles.header.text}>Update Password</Text>
+
+                  <TextInput
+                    onChangeText={handleChange('currentPassword')}
+                    onBlur={handleBlur('currentPassword')}
+                    value={values.currentPassword}
+                    secureTextEntry
+                    placeholder="Current Password"
+                    style={styles.form.input.container}
+                    placeholderTextColor={theme.colors.white}
+                  />
+
+                  {errors.currentPassword && touched.currentPassword ? (
+                    <Text style={styles.form.error}>
+                      *{errors.currentPassword}
+                    </Text>
+                  ) : null}
+
+                  <TextInput
+                    onChangeText={handleChange('newPassword')}
+                    onBlur={handleBlur('newPassword')}
+                    value={values.newPassword}
+                    secureTextEntry
+                    placeholder="New Password"
+                    style={styles.form.input.container}
+                    placeholderTextColor={theme.colors.white}
+                  />
+
+                  {errors.newPassword && touched.newPassword ? (
+                    <Text style={styles.form.error}>*{errors.newPassword}</Text>
+                  ) : null}
+
+                  <TextInput
+                    onChangeText={handleChange('newPasswordRepeat')}
+                    onBlur={handleBlur('newPasswordRepeat')}
+                    value={values.newPasswordRepeat}
+                    secureTextEntry
+                    placeholder="New Password Repeat"
+                    style={styles.form.input.container}
+                    placeholderTextColor={theme.colors.white}
+                  />
+
+                  {errors.newPasswordRepeat && touched.newPasswordRepeat ? (
+                    <Text style={styles.form.error}>
+                      *{errors.newPasswordRepeat}
+                    </Text>
+                  ) : null}
+                </ScrollView>
+              </KeyboardAvoidingView>
+
+              <View
+                style={{
+                  flex: 0.2,
+                  justifyContent: 'flex-end',
+                }}>
                 <TouchableOpacity
                   style={styles.form.submitButton.container}
                   onPress={handleSubmit}

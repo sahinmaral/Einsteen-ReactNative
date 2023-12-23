@@ -47,8 +47,9 @@ const styles = StyleSheet.create({
         ...theme.shadows.normal,
         borderRadius: 25,
         paddingVertical: 10,
-        paddingHorizontal: 30,
+        justifyContent:"center",
         alignItems: 'center',
+        width:250
       },
       text: {
         fontSize: 18,

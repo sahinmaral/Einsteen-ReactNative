@@ -7,8 +7,8 @@ const styles = StyleSheet.create({
   },
   goBackButton: {
     container: {
-      paddingTop: 25,
-      paddingLeft: 25,
+      paddingTop: 20,
+      paddingLeft: 20,
     },
     text: {
       fontSize: 13,
@@ -23,19 +23,18 @@ const styles = StyleSheet.create({
     paddingVertical: 30,
     backgroundColor: theme.colors.veryDarkGrayFaded,
     width: 300,
-    height: 370,
   },
   header: {
-    fontSize: 40,
+    fontSize: 30,
     color: theme.colors.white,
     fontFamily: 'ABeeZee-Regular',
-    marginBottom: 30,
+    marginBottom: 10,
   },
   form: {
     input: {
       borderBottomColor: theme.colors.darkGrayishRed,
       borderBottomWidth: 1,
-      fontSize: 18,
+      fontSize: 16,
       paddingHorizontal: 0,
       paddingBottom: 5,
       fontFamily: 'ABeeZee-Regular',
@@ -43,7 +42,7 @@ const styles = StyleSheet.create({
     },
     error: {
       marginTop: 5,
-      fontSize: 20,
+      fontSize: 15,
       color: theme.colors.strongRed,
       fontFamily: 'ABeeZee-Regular',
     },

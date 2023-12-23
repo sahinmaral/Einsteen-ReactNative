@@ -56,7 +56,7 @@ function AppTabNavigatorRoutes({route}) {
 function MainStackNavigatorRoutes() {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const user = useSelector(state => state.auth);
+  const user = useSelector(state => state.auth.user);
 
   const [loggedIn, setLoggedIn] = useState(false);
 
@@ -74,13 +74,16 @@ function MainStackNavigatorRoutes() {
       navigation.navigate('Welcome');
       dispatch(removeUser());
     }
-  }, [loggedIn, user, navigation]);
+  }, [user, navigation]);
 
   return (
     <Stack.Navigator
       initialRouteName="Welcome"
       screenOptions={{headerShown: false}}>
-      <Stack.Screen name="Welcome" component={Welcome} />
+      <Stack.Screen
+        name="Welcome"
+        component={Welcome}
+      />
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="SignUp" component={SignUp} />
       <Stack.Screen name="ForgetPassword" component={ForgetPassword} />

@@ -9,15 +9,22 @@ import {default as MaterialCommunityIcons} from 'react-native-vector-icons/Mater
 import {openModalByType} from '../../redux/slices/modalSlice';
 import ModalType from '../../enums/ModalType';
 import {useMemo} from 'react';
+import auth from '@react-native-firebase/auth';
+import {useToast} from 'react-native-toast-notifications';
 
 function UserProfile({navigation}) {
   const {user} = useSelector(state => state.auth);
 
   const dispatch = useDispatch();
+  const toast = useToast();
 
   const userProfileThumbnailSource = useMemo(() => {
     return !user.photoURL ? defaultUserThumbnail : {uri: user.photoURL};
   }, [user.photoURL]);
+
+  const isUserSigningInWithPassword = useMemo(() => {
+    return auth().currentUser.providerData[0].providerId === 'password';
+  }, [auth]);
 
   return (
     <View style={styles.mainContainer}>
@@ -40,9 +47,19 @@ function UserProfile({navigation}) {
                 source={userProfileThumbnailSource}
               />
               <TouchableOpacity
-                onPress={() =>
-                  dispatch(openModalByType(ModalType.UpdateProfilePhoto))
-                }
+                onPress={() => {
+                  if (!isUserSigningInWithPassword) {
+                    toast.show(
+                      'You have to change your photo which provider are you signing in',
+                      {
+                        type: 'warning',
+                        placement: 'top',
+                      },
+                    );
+                  } else {
+                    dispatch(openModalByType(ModalType.UpdateProfilePhoto));
+                  }
+                }}
                 style={styles.updateProfilePhotoButton}>
                 <MaterialCommunityIcons
                   name={'camera-plus'}
@@ -51,29 +68,42 @@ function UserProfile({navigation}) {
                 />
               </TouchableOpacity>
             </View>
-            <Text
-              style={[
-                styles.header.informations.text,
-                {color: theme.colors.darkPurple},
-              ]}>
-              {user.firstName} {user.lastName}
-            </Text>
-            <Text
-              style={[
-                styles.header.informations.text,
-                {color: theme.colors.black},
-              ]}>
-              {user.email}
-            </Text>
+            <View
+              style={{
+                marginTop: 10,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <Text
+                style={[
+                  styles.header.informations.text,
+                  {color: theme.colors.darkPurple},
+                ]}>
+                {user.firstName} {user.lastName}
+              </Text>
+              <Text
+                style={[
+                  styles.header.informations.text,
+                  {color: theme.colors.black},
+                ]}>
+                {user.email}
+              </Text>
+            </View>
           </View>
 
           <View style={styles.menu.container}>
-            <TouchableOpacity
-              style={styles.menu.button.container}
-              onPress={() => navigation.navigate('UpdatePassword')}>
-              <MaterialCommunityIcons name={'lock'} color={'black'} size={25} />
-              <Text style={styles.menu.button.text}>Change Password</Text>
-            </TouchableOpacity>
+            {isUserSigningInWithPassword ? (
+              <TouchableOpacity
+                style={styles.menu.button.container}
+                onPress={() => navigation.navigate('UpdatePassword')}>
+                <MaterialCommunityIcons
+                  name={'lock'}
+                  color={'black'}
+                  size={25}
+                />
+                <Text style={styles.menu.button.text}>Change Password</Text>
+              </TouchableOpacity>
+            ) : null}
 
             <TouchableOpacity style={styles.menu.button.container}>
               <MaterialCommunityIcons

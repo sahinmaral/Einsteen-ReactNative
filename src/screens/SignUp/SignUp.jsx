@@ -1,8 +1,15 @@
-import {View, Text, TextInput} from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Dimensions,
+  ScrollView,
+  KeyboardAvoidingView,
+} from 'react-native';
 import styles from './SignUp.styles';
 import Background from '../../components/Background';
 import {useState} from 'react';
-import {TouchableOpacity} from 'react-native';
 import theme from '../../styles/theme';
 import BackgroundType from '../../enums/BackgroundType';
 import {default as FeatherIcon} from 'react-native-vector-icons/Feather';
@@ -13,6 +20,7 @@ import useLoadingIndicator from '../../hooks/useLoadingIndicator';
 import firebaseErrorMessages from '../../constants/FirebaseErrorMessages';
 import {Formik} from 'formik';
 import SignUpUserSchema from '../../schemas/SignUpUserSchema';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 function SignUp({navigation}) {
   const [fetchResult, setFetchResult] = useState({
@@ -32,7 +40,7 @@ function SignUp({navigation}) {
     return await firestore().collection('users').doc(savedUserId).set({
       firstName: values.firstName,
       lastName: values.lastName.toUpperCase(),
-      email: values.email
+      email: values.email,
     });
   };
 
@@ -48,7 +56,7 @@ function SignUp({navigation}) {
         values.password,
       );
 
-      await saveUsersAdditionalInformations(savedUser.user.uid,values);
+      await saveUsersAdditionalInformations(savedUser.user.uid, values);
 
       setFetchResult({
         ...fetchResult,
@@ -110,75 +118,78 @@ function SignUp({navigation}) {
               </TouchableOpacity>
             </View>
 
-            <View
-              style={{
-                flex: 0.8,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <View style={styles.container}>
-                <Text style={styles.header}>Sign Up</Text>
-                <TextInput
-                  style={styles.form.input}
-                  placeholderTextColor={theme.colors.darkGrayishRed}
-                  onChangeText={handleChange('firstName')}
-                  onBlur={handleBlur('firstName')}
-                  value={values.firstName}
-                  placeholder="First Name"
-                />
-                {errors.firstName && touched.firstName ? (
-                  <Text style={styles.form.error}>*{errors.firstName}</Text>
-                ) : null}
-                <TextInput
-                  style={styles.form.input}
-                  placeholderTextColor={theme.colors.darkGrayishRed}
-                  onChangeText={handleChange('lastName')}
-                  onBlur={handleBlur('lastName')}
-                  value={values.lastName}
-                  placeholder="Last Name"
-                />
-                {errors.lastName && touched.lastName ? (
-                  <Text style={styles.form.error}>*{errors.lastName}</Text>
-                ) : null}
-                <TextInput
-                  style={styles.form.input}
-                  placeholderTextColor={theme.colors.darkGrayishRed}
-                  onChangeText={handleChange('email')}
-                  onBlur={handleBlur('email')}
-                  value={values.email}
-                  placeholder="Email"
-                />
-                {errors.email && touched.email ? (
-                  <Text style={styles.form.error}>*{errors.email}</Text>
-                ) : null}
-                <TextInput
-                  style={styles.form.input}
-                  placeholderTextColor={theme.colors.darkGrayishRed}
-                  onChangeText={handleChange('password')}
-                  onBlur={handleBlur('password')}
-                  value={values.password}
-                  secureTextEntry
-                  placeholder="Password"
-                />
-                {errors.password && touched.password ? (
-                  <Text style={styles.form.error}>*{errors.password}</Text>
-                ) : null}
-                <TextInput
-                  style={styles.form.input}
-                  placeholderTextColor={theme.colors.darkGrayishRed}
-                  onChangeText={handleChange('passwordRepeat')}
-                  onBlur={handleBlur('passwordRepeat')}
-                  value={values.passwordRepeat}
-                  secureTextEntry
-                  placeholder="Password repeat"
-                />
-                {errors.passwordRepeat && touched.passwordRepeat ? (
-                  <Text style={styles.form.error}>
-                    *{errors.passwordRepeat}
-                  </Text>
-                ) : null}
-              </View>
-            </View>
+            <KeyboardAvoidingView behavior={'padding'} style={{flex: 0.8}}>
+              <ScrollView
+                contentContainerStyle={{flexGrow: 1, justifyContent: 'center'}}>
+                <View
+                  style={{
+                    alignItems: 'center',
+                  }}>
+                  <View style={styles.container}>
+                    <Text style={styles.header}>Sign Up</Text>
+                    <TextInput
+                      style={styles.form.input}
+                      placeholderTextColor={theme.colors.darkGrayishRed}
+                      onChangeText={handleChange('firstName')}
+                      onBlur={handleBlur('firstName')}
+                      value={values.firstName}
+                      placeholder="First Name"
+                    />
+                    {errors.firstName && touched.firstName ? (
+                      <Text style={styles.form.error}>*{errors.firstName}</Text>
+                    ) : null}
+                    <TextInput
+                      style={styles.form.input}
+                      placeholderTextColor={theme.colors.darkGrayishRed}
+                      onChangeText={handleChange('lastName')}
+                      onBlur={handleBlur('lastName')}
+                      value={values.lastName}
+                      placeholder="Last Name"
+                    />
+                    {errors.lastName && touched.lastName ? (
+                      <Text style={styles.form.error}>*{errors.lastName}</Text>
+                    ) : null}
+                    <TextInput
+                      style={styles.form.input}
+                      placeholderTextColor={theme.colors.darkGrayishRed}
+                      onChangeText={handleChange('email')}
+                      onBlur={handleBlur('email')}
+                      value={values.email}
+                      placeholder="Email"
+                    />
+                    {errors.email && touched.email ? (
+                      <Text style={styles.form.error}>*{errors.email}</Text>
+                    ) : null}
+                    <TextInput
+                      style={styles.form.input}
+                      placeholderTextColor={theme.colors.darkGrayishRed}
+                      onChangeText={handleChange('password')}
+                      onBlur={handleBlur('password')}
+                      value={values.password}
+                      secureTextEntry
+                      placeholder="Password"
+                    />
+                    {errors.password && touched.password ? (
+                      <Text style={styles.form.error}>*{errors.password}</Text>
+                    ) : null}
+                    <TextInput
+                      style={styles.form.input}
+                      placeholderTextColor={theme.colors.darkGrayishRed}
+                      onChangeText={handleChange('passwordRepeat')}
+                      onBlur={handleBlur('passwordRepeat')}
+                      value={values.passwordRepeat}
+                      secureTextEntry
+                      placeholder="Password repeat"
+                    />
+                    {errors.passwordRepeat && touched.passwordRepeat ? (
+                      <Text style={styles.form.error}>
+                        *{errors.passwordRepeat}
+                      </Text>
+                    ) : null}
+                  </View>
+                </View>
+              </ScrollView>
+            </KeyboardAvoidingView>
 
             <TouchableOpacity
               style={styles.submitButton.container}

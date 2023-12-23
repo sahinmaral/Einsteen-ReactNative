@@ -12,8 +12,19 @@ const styles = StyleSheet.create({
       color: theme.colors.white,
     },
   },
+  goBackButton: {
+    container: {
+      paddingTop: 25,
+      paddingLeft: 25,
+    },
+    text: {
+      fontSize: 13,
+      fontFamily: 'ABeeZee-Regular',
+      color: theme.colors.white,
+    },
+  },
   form: {
-    container: {gap: 10, flex: 0.9, padding: 10},
+    container: {gap: 10, padding: 25},
     input: {
       container: {
         borderBottomColor: theme.colors.darkGrayishRed,
