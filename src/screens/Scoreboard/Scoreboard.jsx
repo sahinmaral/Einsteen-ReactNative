@@ -61,10 +61,9 @@ function Scoreboard({navigation}) {
         loading: false,
       });
     } catch (error) {
-
       setFetchResult({
         ...fetchResult,
-        error,
+        error: "Error during fetching scoreboard",
         loading: false,
       });
     }

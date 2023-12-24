@@ -20,14 +20,30 @@ const getScoresCollectionByQuizInformations = quizInformations => {
       quizInformations.category.id,
     )
     .orderBy(
-      new firestore.FieldPath('quizInformations', 'totalEstimated'),
-      'asc',
-    )
-    .orderBy(
       new firestore.FieldPath('quizInformations', 'correctQuestionCount'),
       'desc',
     )
+    .orderBy(
+      new firestore.FieldPath('quizInformations', 'totalEstimated'),
+      'asc',
+    )
     .limit(10);
+
+  return query.get();
+};
+
+const getUserAllScoresByUserId = userId => {
+  const scoresCollection = firestore().collection('scores');
+
+  const query = scoresCollection.where('userId', '==', userId)
+  .orderBy(
+    new firestore.FieldPath('quizInformations', 'correctQuestionCount'),
+    'desc',
+  )
+  .orderBy(
+    new firestore.FieldPath('quizInformations', 'totalEstimated'),
+    'asc',
+  );
 
   return query.get();
 };
@@ -47,4 +63,5 @@ const getUsersAdditionalInformationsByUserIds = userIds => {
 export {
   getScoresCollectionByQuizInformations,
   getUsersAdditionalInformationsByUserIds,
+  getUserAllScoresByUserId
 };

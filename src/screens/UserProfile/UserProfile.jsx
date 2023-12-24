@@ -105,7 +105,9 @@ function UserProfile({navigation}) {
               </TouchableOpacity>
             ) : null}
 
-            <TouchableOpacity style={styles.menu.button.container}>
+            <TouchableOpacity style={styles.menu.button.container}
+              onPress={() => navigation.navigate("ScoreboardOfUser")}
+            >
               <MaterialCommunityIcons
                 name={'format-list-numbered'}
                 color={'black'}

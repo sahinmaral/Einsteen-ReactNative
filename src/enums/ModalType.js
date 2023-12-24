@@ -3,7 +3,10 @@ const ModalType = {
   ChooseQuestionCount: 'ChooseQuestionCount',
   ChooseDifficult: 'ChooseDifficult',
   VerifyQuitQuiz: 'VerifyQuitQuiz',
-  UpdateProfilePhoto: 'UpdateProfilePhoto'
+  UpdateProfilePhoto: 'UpdateProfilePhoto',
+  FilterScoresByQuestionDifficult:"FilterScoresByQuestionDifficult",
+  FilterScoresByQuestionCount:"FilterScoresByQuestionCount",
+  FilterScoresByQuestionCategory:"FilterScoresByQuestionCategory",
 };
 
 export default ModalType;

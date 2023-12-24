@@ -1,33 +1,20 @@
-import {useCallback, useMemo, useState, useEffect} from 'react';
 import Background from '../../components/Background';
 import BackgroundType from '../../enums/BackgroundType';
-import QuestionDifficult from '../../enums/QuestionDifficult';
 import {
   View,
   Text,
   TouchableOpacity,
   FlatList,
   Pressable,
-  BackHandler,
 } from 'react-native';
 import styles from './CategoriesOfQuestion.styles';
 import QuestionCategoryListItem from '../../components/QuestionCategoryListItem';
 import categories from '../../constants/CategoryOfQuestion';
-import QuestionDifficultModalContent from '../../components/QuestionDifficultModalContent/QuestionDifficultModalContent';
-import QuestionCountModalContent from '../../components/QuestionCountModalContent/QuestionCountModalContent';
 import {useDispatch, useSelector} from 'react-redux';
-import VerifySignOutUserModalContent from '../../components/VerifySignOutUserModalContent/VerifySignOutUserModalContent';
-import {openModalByType} from '../../redux/slices/modalSlice';
 import ModalType from '../../enums/ModalType';
+import { useMemo } from 'react';
 
 function CategoriesOfQuestion({navigation}) {
-  const initialStates = {
-    modalVisible: {
-      difficult: false,
-      questionCount: false,
-      verifySignedOut: false,
-    },
-  };
 
   const {user} = useSelector(state => state.auth);
   const {competition} = useSelector(state => state.question);

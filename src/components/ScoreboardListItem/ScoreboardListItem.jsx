@@ -3,22 +3,34 @@ import {Image, Text, View} from 'react-native';
 import {formatTime} from '../../helpers/timerMethods';
 import defaultUserThumbnail from '../../../assets/images/defaultUserThumbnail.png';
 import styles from './ScoreboardListItem.styles';
+import ScoreboardType from '../../enums/ScoreboardType';
 
-function ScoreboardListItem({item}) {
+function ScoreboardListItem({item, type}) {
   const userProfileThumbnailSource = useMemo(() => {
+    if (item.user) {
+      return !item.user.photoURL
+        ? defaultUserThumbnail
+        : {uri: item.user.photoURL};
+    } else {
+      return null;
+    }
+  }, [item.user]);
 
-    return !item.user.photoURL
-      ? defaultUserThumbnail
-      : {uri: item.user.photoURL};
-  }, [item.user.photoURL]);
-
-  return (
-    <View style={styles.container}>
-      {item.user.photoURL ? (
+  const UserThumbnail = () => {
+    if (type === ScoreboardType.AllUsers) {
+      return user.photoURL ? (
         <Image style={styles.thumbnail} source={userProfileThumbnailSource} />
       ) : (
         <Image style={styles.thumbnail} source={defaultUserThumbnail} />
-      )}
+      );
+    }
+
+    return null;
+  };
+
+  return (
+    <View style={styles.container}>
+      <UserThumbnail />
 
       <View style={styles.content.container}>
         <Text style={styles.content.text}>

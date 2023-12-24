@@ -31,6 +31,9 @@ export const modalSlice = createSlice({
             verifySignedOut: false,
             verifyQuitQuiz: false,
             updateProfilePhoto: false,
+            filterScoresByQuestionDifficult: false,
+            filterScoresByQuestionCategory: false,
+            filterScoresByQuestionCount: false,
           };
           break;
         case ModalType.ChooseQuestionCount:
@@ -40,6 +43,9 @@ export const modalSlice = createSlice({
             verifySignedOut: false,
             verifyQuitQuiz: false,
             updateProfilePhoto: false,
+            filterScoresByQuestionDifficult: false,
+            filterScoresByQuestionCategory: false,
+            filterScoresByQuestionCount: false,
           };
           break;
         case ModalType.VerifyQuitQuiz:
@@ -49,11 +55,53 @@ export const modalSlice = createSlice({
             chooseQuestionCount: false,
             verifySignedOut: false,
             updateProfilePhoto: false,
+            filterScoresByQuestionDifficult: false,
+            filterScoresByQuestionCategory: false,
+            filterScoresByQuestionCount: false,
           };
           break;
         case ModalType.UpdateProfilePhoto:
           state.visibility = {
             updateProfilePhoto: true,
+            verifyQuitQuiz: false,
+            chooseDifficult: false,
+            chooseQuestionCount: false,
+            verifySignedOut: false,
+            filterScoresByQuestionDifficult: false,
+            filterScoresByQuestionCategory: false,
+            filterScoresByQuestionCount: false,
+          };
+          break;
+        case ModalType.FilterScoresByQuestionDifficult:
+          state.visibility = {
+            filterScoresByQuestionDifficult: true,
+            filterScoresByQuestionCategory: false,
+            filterScoresByQuestionCount: false,
+            updateProfilePhoto: false,
+            verifyQuitQuiz: false,
+            chooseDifficult: false,
+            chooseQuestionCount: false,
+            verifySignedOut: false,
+          };
+          break;
+        case ModalType.FilterScoresByQuestionCategory:
+          state.visibility = {
+            filterScoresByQuestionCategory: true,
+            filterScoresByQuestionDifficult: false,
+            filterScoresByQuestionCount: false,
+            updateProfilePhoto: false,
+            verifyQuitQuiz: false,
+            chooseDifficult: false,
+            chooseQuestionCount: false,
+            verifySignedOut: false,
+          };
+          break;
+        case ModalType.FilterScoresByQuestionCount:
+          state.visibility = {
+            filterScoresByQuestionCount: true,
+            filterScoresByQuestionDifficult: false,
+            filterScoresByQuestionCategory: false,
+            updateProfilePhoto: false,
             verifyQuitQuiz: false,
             chooseDifficult: false,
             chooseQuestionCount: false,
@@ -66,11 +114,14 @@ export const modalSlice = createSlice({
     },
     closeAllModals: state => {
       state.visibility = {
-        chooseQuestionCount: false,
-        chooseDifficult: false,
-        verifySignedOut: false,
-        verifyQuitQuiz: false,
+        filterScoresByQuestionCount: false,
+        filterScoresByQuestionDifficult: false,
+        filterScoresByQuestionCategory: false,
         updateProfilePhoto: false,
+        verifyQuitQuiz: false,
+        chooseDifficult: false,
+        chooseQuestionCount: false,
+        verifySignedOut: false,
       };
     },
   },

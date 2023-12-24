@@ -8,6 +8,9 @@ import QuestionDifficultModalContent from '../QuestionDifficultModalContent';
 import QuestionCountModalContent from '../QuestionCountModalContent';
 import VerifyQuitQuizModalContent from '../VerifyQuitQuizModalContent';
 import UpdateProfilePhotoModalContent from '../UpdateProfilePhotoModalContent';
+import FilterScoresByQuestionDifficultModalContent from '../FilterScoresByQuestionDifficultModalContent';
+import FilterScoresByQuestionCountModalContent from '../FilterScoresByQuestionCountModalContent';
+import FilterScoresByQuestionCategoryModalContent from '../FilterScoresByQuestionCategoryModalContent';
 import {useNavigation} from '@react-navigation/native';
 
 function ModalNavigator({currentRoute}) {
@@ -71,6 +74,12 @@ function ModalNavigator({currentRoute}) {
     return <VerifyQuitQuizModalContent />;
   } else if (modal.visibility.updateProfilePhoto) {
     return <UpdateProfilePhotoModalContent />;
+  } else if (modal.visibility.filterScoresByQuestionDifficult) {
+    return <FilterScoresByQuestionDifficultModalContent />;
+  } else if (modal.visibility.filterScoresByQuestionCount) {
+    return <FilterScoresByQuestionCountModalContent />;
+  } else if (modal.visibility.filterScoresByQuestionCategory) {
+    return <FilterScoresByQuestionCategoryModalContent />;
   } else {
     return null;
   }

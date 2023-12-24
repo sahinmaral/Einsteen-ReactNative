@@ -20,8 +20,17 @@ function groupByItemsOfArrayThatDoesntHaveAnyProperty(array) {
   return array.filter((value, index, array) => array.indexOf(value) === index);
 }
 
+function distinctItemsOfArrayByProperty(array, property) {
+  const uniqueArray = array.filter((obj, index, array) => {
+    return array.findIndex(item => item[property] === obj[property]) === index;
+  });
+
+  return uniqueArray;
+}
+
 export {
   shuffleArray,
   mapFirebaseDocumentArrayWithId,
+  distinctItemsOfArrayByProperty,
   groupByItemsOfArrayThatDoesntHaveAnyProperty,
 };
