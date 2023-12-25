@@ -1,10 +1,11 @@
-import React from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
-import baseStyles from '../../styles/baseStyles';
+import {Text, TouchableOpacity, View, useWindowDimensions} from 'react-native';
+import makeBaseStyles from '../../styles/baseStyles';
 import {useNavigation} from '@react-navigation/native';
 
 function GoBackButton({action}) {
   const navigation = useNavigation();
+  const {fontScale} = useWindowDimensions();
+  const baseStyles = makeBaseStyles(fontScale);
 
   const handlePress = () => {
     if (action) {

@@ -1,5 +1,6 @@
-import {View, Text, TextInput} from 'react-native';
-import styles from './ForgetPassword.styles';
+import {View, Text, TextInput, useWindowDimensions} from 'react-native';
+import makeStyles from './ForgetPassword.styles';
+import makeBaseStyles from '../../styles/baseStyles';
 import Background from '../../components/Background';
 import {useState} from 'react';
 import {TouchableOpacity} from 'react-native';
@@ -12,6 +13,7 @@ import useLoadingIndicator from '../../hooks/useLoadingIndicator';
 import firebaseErrorMessages from '../../constants/FirebaseErrorMessages';
 import {Formik} from 'formik';
 import ForgetPasswordSchema from '../../schemas/ForgetPasswordSchema';
+import GoBackButton from '../../components/GoBackButton';
 
 function ForgetPassword({navigation}) {
   const [fetchResult, setFetchResult] = useState({
@@ -22,6 +24,10 @@ function ForgetPassword({navigation}) {
   const toast = useToast();
 
   const loadingIndicator = useLoadingIndicator(fetchResult.loading);
+
+  const {fontScale} = useWindowDimensions();
+  const baseStyles = makeBaseStyles(fontScale);
+  const styles = makeStyles(fontScale);
 
   const sendPasswordResetLink = values => {
     setFetchResult({
@@ -64,7 +70,7 @@ function ForgetPassword({navigation}) {
   };
 
   return (
-    <View style={styles.mainContainer}>
+    <View style={baseStyles.mainContainer}>
       <Formik
         initialValues={{
           email: '',
@@ -80,13 +86,7 @@ function ForgetPassword({navigation}) {
           touched,
         }) => (
           <Background type={BackgroundType.Auth}>
-            <View style={{flex: 0.1}}>
-              <TouchableOpacity
-                onPress={() => navigation.goBack()}
-                style={styles.goBackButton.container}>
-                <Text style={styles.goBackButton.text}>Back</Text>
-              </TouchableOpacity>
-            </View>
+            <GoBackButton />
 
             <View
               style={{
@@ -94,14 +94,22 @@ function ForgetPassword({navigation}) {
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
-              <View style={styles.container}>
+              <View style={[baseStyles.form.auth.container, {gap: 5}]}>
                 <Text style={styles.header}>Forget Password</Text>
                 <Text style={styles.information}>
                   * Please enter the email address yo'd like your password reset
                   information sent to
                 </Text>
                 <TextInput
-                  style={styles.form.input}
+                  style={[
+                    baseStyles.form.input,
+                    {
+                      borderBottomColor: theme.colors.darkGrayishRed,
+                      borderBottomWidth: 1,
+                      paddingHorizontal: 0,
+                      paddingBottom: 5,
+                    },
+                  ]}
                   placeholderTextColor={theme.colors.darkGrayishRed}
                   onChangeText={handleChange('email')}
                   onBlur={handleBlur('email')}
@@ -109,16 +117,18 @@ function ForgetPassword({navigation}) {
                   placeholder="Email"
                 />
                 {errors.email && touched.email ? (
-                  <Text style={styles.form.error}>*{errors.email}</Text>
+                  <Text style={baseStyles.form.error}>*{errors.email}</Text>
                 ) : null}
               </View>
             </View>
 
             <TouchableOpacity
-              style={styles.submitButton.container}
+              style={baseStyles.button.submitButton.container}
               onPress={handleSubmit}
               disabled={fetchResult.loading}>
-              <Text style={styles.submitButton.text}>SEND RESET LINK</Text>
+              <Text style={baseStyles.button.submitButton.text}>
+                SEND RESET LINK
+              </Text>
               {fetchResult.loading && (
                 <View
                   style={{

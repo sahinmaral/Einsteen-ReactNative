@@ -1,15 +1,18 @@
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, useWindowDimensions} from 'react-native';
 import theme from '../../styles/theme';
 import {useNavigation} from '@react-navigation/native';
 import {closeAllModals} from '../../redux/slices/modalSlice';
 import {useDispatch} from 'react-redux';
 import CustomModal from '../CustomModal';
-import baseStyles from '../../styles/baseStyles';
+import makeBaseStyles from '../../styles/baseStyles';
 
 function VerifyQuitQuizModal() {
   const navigation = useNavigation();
 
   const dispatch = useDispatch();
+
+  const {fontScale} = useWindowDimensions();
+  const baseStyles = makeBaseStyles(fontScale);
 
   const closeModal = () => {
     dispatch(closeAllModals());
@@ -55,7 +58,7 @@ function VerifyQuitQuizModal() {
       contentComponent={<Content />}
       style={{
         container: {flex: 0.2},
-        header: {flex: 0.8},
+        header: {flex: 0.5},
         content: {flex: 0.4},
       }}
     />

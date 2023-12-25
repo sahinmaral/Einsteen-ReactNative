@@ -1,6 +1,6 @@
 import React from 'react';
-import {TouchableOpacity, Text} from 'react-native';
-import styles from './QuestionCategoryListItem.styles';
+import {TouchableOpacity, Text, useWindowDimensions} from 'react-native';
+import makeStyles from './QuestionCategoryListItem.styles';
 import {useNavigation} from '@react-navigation/native';
 import he from 'he';
 import {useDispatch} from 'react-redux';
@@ -11,6 +11,9 @@ function QuestionCategoryListItem({category}) {
 
   const dispatch = useDispatch();
 
+  const {fontScale} = useWindowDimensions();
+  const styles = makeStyles(fontScale);
+
   return (
     <TouchableOpacity
       style={styles.container}
@@ -18,7 +21,9 @@ function QuestionCategoryListItem({category}) {
         dispatch(selectCategoryOfCompetition(category));
         navigation.navigate('ChosenCategory');
       }}>
-      <Text style={styles.text}>{he.decode(category.value.toUpperCase())}</Text>
+      <Text style={styles.text}>
+        {he.decode(category.value.toLocaleUpperCase('en-US'))}
+      </Text>
     </TouchableOpacity>
   );
 }

@@ -1,9 +1,15 @@
 import React, {useCallback, useEffect} from 'react';
 import BackgroundType from '../../enums/BackgroundType';
-import styles from './ResultOfQuiz.styles';
-import {View, Text, TouchableOpacity, Image} from 'react-native';
+import makeStyles from './ResultOfQuiz.styles';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  useWindowDimensions,
+} from 'react-native';
 import Background from '../../components/Background';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {default as FeatherIcon} from 'react-native-vector-icons/Feather';
 import {useNavigation} from '@react-navigation/native';
 import firestore from '@react-native-firebase/firestore';
@@ -11,12 +17,17 @@ import ResultQuizType from '../../enums/ResultQuizType';
 import wonQuizBanner from '../../../assets/images/wonQuizBanner.png';
 import lostQuizBanner from '../../../assets/images/lostQuizBanner.png';
 import ranOutTimer from '../../../assets/images/ranOutTimer.png';
+import makeBaseStyles from '../../styles/baseStyles';
 
 function ResultOfQuiz() {
   const {competition} = useSelector(state => state.question);
   const {user} = useSelector(state => state.auth);
 
   const navigation = useNavigation();
+
+  const {fontScale} = useWindowDimensions();
+  const baseStyles = makeBaseStyles(fontScale);
+  const styles = makeStyles(fontScale);
 
   const sendScore = async () => {
     return firestore()
@@ -38,13 +49,13 @@ function ResultOfQuiz() {
   const renderResultTextByResultType = useCallback(() => {
     if (competition.result === ResultQuizType.FinishedSuccessfully) {
       return (
-        <Text style={styles.header.text}>
+        <Text style={[styles.header.text, {fontSize: 20 / fontScale}]}>
           {competition.correctQuestion} of {competition.totalQuestion} correct
         </Text>
       );
     } else if (competition.result === ResultQuizType.RunOutTimer) {
       return (
-        <Text style={styles.header.text}>
+        <Text style={[styles.header.text, {fontSize: 20 / fontScale}]}>
           You ran out of time. Score won't be saved.
         </Text>
       );
@@ -70,7 +81,7 @@ function ResultOfQuiz() {
   }, [competition.result]);
 
   return (
-    <View style={styles.mainContainer}>
+    <View style={baseStyles.mainContainer}>
       <Background type={BackgroundType.Main}>
         <View style={{flex: 1}}>
           <View style={styles.header.container}>
@@ -102,9 +113,7 @@ function ResultOfQuiz() {
             <View style={{flexDirection: 'row', gap: 10}}>
               <TouchableOpacity
                 style={styles.buttonGroup.button.container}
-                onPress={() =>
-                  navigation.navigate('Scoreboard')
-                }>
+                onPress={() => navigation.navigate('Scoreboard')}>
                 <FeatherIcon name={'list'} color={'white'} size={36} />
 
                 <Text style={styles.buttonGroup.button.text}>Scoreboard</Text>
@@ -115,7 +124,7 @@ function ResultOfQuiz() {
                 onPress={() => navigation.navigate('Homepage')}>
                 <FeatherIcon name={'home'} color={'white'} size={36} />
 
-                <Text style={styles.buttonGroup.button.text}>Go Homepage</Text>
+                <Text style={styles.buttonGroup.button.text}>Homepage</Text>
               </TouchableOpacity>
             </View>
           </View>

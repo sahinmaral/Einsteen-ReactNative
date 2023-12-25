@@ -12,7 +12,8 @@ const colors = {
   black: '#000000',
   lightRed: "#FFCCCB",
   lightGreen : "#90EE90",
-  strongRed: "#bd1a1a"
+  strongRed: "#bd1a1a",
+  slate:"#334155",
 };
 
 const shadows = {

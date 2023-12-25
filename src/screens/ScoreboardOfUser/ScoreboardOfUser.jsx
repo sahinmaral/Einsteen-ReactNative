@@ -1,6 +1,13 @@
 import {useEffect, useMemo, useState} from 'react';
-import styles from './ScoreboardOfUser.styles';
-import {FlatList, Image, Text, TouchableOpacity, View} from 'react-native';
+import makeStyles from './ScoreboardOfUser.styles';
+import {
+  FlatList,
+  Image,
+  Text,
+  TouchableOpacity,
+  View,
+  useWindowDimensions,
+} from 'react-native';
 import Background from '../../components/Background';
 import BackgroundType from '../../enums/BackgroundType';
 import ScoreboardListItem from '../../components/ScoreboardListItem/ScoreboardListItem';
@@ -9,8 +16,6 @@ import {
   groupByItemsOfArrayThatDoesntHaveAnyProperty,
   mapFirebaseDocumentArrayWithId,
 } from '../../helpers/arrayMethods';
-import LottieView from 'lottie-react-native';
-import loadingAnimation from '../../../assets/animations/loading.json';
 import serverErrorBanner from '../../../assets/images/500.png';
 import {useDispatch, useSelector} from 'react-redux';
 import {getUserAllScoresByUserId} from '../../services/firebase/FirestoreService';
@@ -22,8 +27,10 @@ import {
 } from '../../redux/slices/authSlice';
 import {default as MaterialCommunityIcons} from 'react-native-vector-icons/MaterialCommunityIcons';
 import theme from '../../styles/theme';
+import makeBaseStyles from '../../styles/baseStyles';
 import QuestionDifficult from '../../enums/QuestionDifficult';
 import {openModalByType} from '../../redux/slices/modalSlice';
+import Loading from '../../screens/Loading';
 
 function ScoreboardOfUser({navigation}) {
   const [fetchResult, setFetchResult] = useState({
@@ -35,6 +42,10 @@ function ScoreboardOfUser({navigation}) {
   const dispatch = useDispatch();
 
   const {user} = useSelector(state => state.auth);
+
+  const {fontScale} = useWindowDimensions();
+  const baseStyles = makeBaseStyles(fontScale);
+  const styles = makeStyles(fontScale);
 
   const getScores = async () => {
     try {
@@ -123,7 +134,7 @@ function ScoreboardOfUser({navigation}) {
   }, []);
 
   return (
-    <View style={styles.mainContainer}>
+    <View style={baseStyles.mainContainer}>
       <Background type={BackgroundType.Main}>
         <View style={{flex: 1, padding: 25}}>
           <View style={{flex: 0.1}}>
@@ -133,8 +144,8 @@ function ScoreboardOfUser({navigation}) {
           </View>
 
           <View style={styles.header.container}>
-            <Text style={[styles.header.text, {fontSize: 28}]}>
-              Scoreboard{' '}
+            <Text style={[styles.header.text, {fontSize: 28 / fontScale}]}>
+              Your scores{' '}
               {!fetchResult.loading && !fetchResult.error && fetchResult.data
                 ? `(${filteredScoreDatas.length})`
                 : null}
@@ -218,15 +229,8 @@ function ScoreboardOfUser({navigation}) {
             </TouchableOpacity>
           </View>
 
-          <View style={{flex: 0.6}}>
-            {fetchResult.loading && (
-              <LottieView
-                style={{flex: 1}}
-                source={loadingAnimation}
-                autoPlay
-                loop
-              />
-            )}
+          <View style={{flex: 0.65}}>
+            {fetchResult.loading && <Loading />}
 
             {!fetchResult.loading && fetchResult.error && (
               <View

@@ -1,5 +1,5 @@
-import {TouchableOpacity, View, Text, ScrollView} from 'react-native';
-import baseStyles from '../../styles/baseStyles';
+import {TouchableOpacity, View, Text, ScrollView, useWindowDimensions} from 'react-native';
+import makeBaseStyles from '../../styles/baseStyles';
 import {closeAllModals} from '../../redux/slices/modalSlice';
 import {useDispatch, useSelector} from 'react-redux';
 import {setUserSelectedScoreFilter} from '../../redux/slices/authSlice';
@@ -9,6 +9,9 @@ import CustomModal from '../CustomModal';
 function FilterScoresByQuestionCategoryModal() {
   const {user} = useSelector(state => state.auth);
   const dispatch = useDispatch();
+
+  const {fontScale} = useWindowDimensions();
+  const baseStyles = makeBaseStyles(fontScale);
 
   const closeModal = () => {
     dispatch(closeAllModals());

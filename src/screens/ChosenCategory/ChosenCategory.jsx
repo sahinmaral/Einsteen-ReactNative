@@ -1,8 +1,13 @@
-import {View, Text, TouchableOpacity, Image} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  useWindowDimensions,
+} from 'react-native';
 import Background from '../../components/Background';
 import BackgroundType from '../../enums/BackgroundType';
-import styles from './ChosenCategory.styles';
-
+import makeStyles from './ChosenCategory.styles';
 import questionMarkImage from '../../../assets/images/questionMark.png';
 import {useState} from 'react';
 import {fetchQuestions} from '../../services/QuizAPIService';
@@ -16,7 +21,7 @@ import {useToast} from 'react-native-toast-notifications';
 import useLoadingIndicator from '../../hooks/useLoadingIndicator';
 import {default as FeatherIcon} from 'react-native-vector-icons/Feather';
 import GoBackButton from '../../components/GoBackButton';
-import baseStyles from '../../styles/baseStyles';
+import makeBaseStyles from '../../styles/baseStyles';
 
 function ChosenCategory({navigation}) {
   const {competition} = useSelector(state => state.question);
@@ -27,6 +32,10 @@ function ChosenCategory({navigation}) {
   const [fetchLoading, setFetchLoading] = useState(false);
 
   const loadingIndicator = useLoadingIndicator(fetchLoading);
+
+  const {fontScale} = useWindowDimensions();
+  const baseStyles = makeBaseStyles(fontScale);
+  const styles = makeStyles(fontScale);
 
   const getQuestions = async () => {
     setFetchLoading(true);
@@ -88,7 +97,10 @@ function ChosenCategory({navigation}) {
 
           <View style={styles.header.container}>
             <Text style={styles.header.text}>
-              Category : {he.decode(competition.selected.category.value)}
+              CATEGORY :{' '}
+              {he
+                .decode(competition.selected.category.value)
+                .toLocaleUpperCase('en-US')}
             </Text>
 
             <Image
@@ -116,7 +128,7 @@ function ChosenCategory({navigation}) {
           <TouchableOpacity
             style={styles.buttonGroup.submitButton.container}
             onPress={getQuestions}>
-            <Text style={styles.buttonGroup.submitButton.text}>Start</Text>
+            <Text style={styles.buttonGroup.submitButton.text}>START</Text>
             {fetchLoading && (
               <View
                 style={{
@@ -130,7 +142,7 @@ function ChosenCategory({navigation}) {
           <TouchableOpacity
             style={styles.buttonGroup.submitButton.container}
             onPress={() => navigation.navigate('Scoreboard')}>
-            <Text style={styles.buttonGroup.submitButton.text}>Scoreboard</Text>
+            <Text style={styles.buttonGroup.submitButton.text}>SCOREBOARD</Text>
           </TouchableOpacity>
         </View>
       </Background>

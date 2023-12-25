@@ -1,8 +1,17 @@
-import {Modal, View, TouchableOpacity, Text} from 'react-native';
-import {default as modalStyles} from './CustomModal.styles';
+import {
+  Modal,
+  View,
+  TouchableOpacity,
+  Text,
+  useWindowDimensions,
+} from 'react-native';
+import makeStyles from './CustomModal.styles';
 import {default as FeatherIcon} from 'react-native-vector-icons/Feather';
 
 const CustomModal = ({closeModal, headerText, contentComponent, style}) => {
+  const {fontScale} = useWindowDimensions();
+  const modalStyles = makeStyles(fontScale);
+
   const CloseButton = () => {
     return (
       <View style={modalStyles.modal.closeButton}>

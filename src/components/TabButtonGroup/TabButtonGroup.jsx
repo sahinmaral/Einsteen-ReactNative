@@ -1,10 +1,13 @@
 import {useNavigation} from '@react-navigation/native';
-import {TouchableOpacity, View, Text} from 'react-native';
+import {TouchableOpacity, View, Text, useWindowDimensions} from 'react-native';
 import {default as FeatherIcon} from 'react-native-vector-icons/Feather';
-import styles from './TabButtonGroup.styles';
+import makeStyles from './TabButtonGroup.styles';
 
 function TabButtonGroup() {
   const navigation = useNavigation();
+
+  const {fontScale} = useWindowDimensions();
+  const styles = makeStyles(fontScale);
 
   const handleTabPress = screenName => {
     navigation.navigate(screenName);

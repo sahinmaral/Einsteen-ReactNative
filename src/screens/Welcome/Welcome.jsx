@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, useWindowDimensions} from 'react-native';
 import theme from '../../styles/theme';
-import styles from './Welcome.styles';
+import makeBaseStyles from '../../styles/baseStyles';
+import makeStyles from './Welcome.styles';
 import Background from '../../components/Background/Background';
 import BackgroundType from '../../enums/BackgroundType';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
@@ -12,7 +13,7 @@ import {useToast} from 'react-native-toast-notifications';
 import useLoadingIndicator from '../../hooks/useLoadingIndicator';
 import {default as FeatherIcon} from 'react-native-vector-icons/Feather';
 import {setUser} from '../../redux/slices/authSlice';
-import {GOOGLE_WEB_CLIENT_ID} from "@env"
+import {GOOGLE_WEB_CLIENT_ID} from '@env';
 
 function Welcome({navigation}) {
   const dispatch = useDispatch();
@@ -20,6 +21,10 @@ function Welcome({navigation}) {
 
   const [fetchResult, setFetchResult] = useState(false);
   const loadingIndicator = useLoadingIndicator(fetchResult);
+
+  const {fontScale} = useWindowDimensions();
+  const baseStyles = makeBaseStyles(fontScale);
+  const styles = makeStyles(fontScale);
 
   const signInWithGoogle = async () => {
     try {
@@ -69,7 +74,11 @@ function Welcome({navigation}) {
 
       navigation.navigate('App');
     } catch (error) {
-      console.log(error);
+      setFetchResult(false);
+
+      if (error.message === 'Sign in action cancelled') {
+        return;
+      }
 
       toast.show(
         'Error during signing in with Google. Please try again later.',
@@ -78,12 +87,11 @@ function Welcome({navigation}) {
           placement: 'top',
         },
       );
-      setFetchResult(false);
     }
   };
 
   return (
-    <View style={styles.mainContainer}>
+    <View style={baseStyles.mainContainer}>
       <Background type={BackgroundType.Auth}>
         <View style={styles.container}>
           <View style={styles.logo.container}>
@@ -113,7 +121,9 @@ function Welcome({navigation}) {
             <TouchableOpacity style={styles.buttonGroup.button.container}>
               <Text
                 style={styles.buttonGroup.button.text}
-                onPress={() => navigation.navigate('Login')}>
+                onPress={() => {
+                  navigation.navigate('Login');
+                }}>
                 Login with email
               </Text>
             </TouchableOpacity>
@@ -138,12 +148,12 @@ function Welcome({navigation}) {
             <View
               style={{flexDirection: 'row', justifyContent: 'space-between'}}>
               <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-                <Text style={{color: theme.colors.white}}>Sign Up</Text>
+                <Text style={baseStyles.text}>Sign Up</Text>
               </TouchableOpacity>
 
               <TouchableOpacity>
                 <Text
-                  style={{color: theme.colors.white}}
+                  style={baseStyles.text}
                   onPress={() => navigation.navigate('ForgetPassword')}>
                   Forgot Password
                 </Text>

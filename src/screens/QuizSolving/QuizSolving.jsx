@@ -1,6 +1,6 @@
 import {useEffect, useMemo, useRef, useState} from 'react';
-import {View, TouchableOpacity, Text, BackHandler} from 'react-native';
-import styles from './QuizSolving.styles';
+import {View, TouchableOpacity, Text, useWindowDimensions} from 'react-native';
+import makeStyles from './QuizSolving.styles';
 import Background from '../../components/Background';
 import BackgroundType from '../../enums/BackgroundType';
 import ResultQuizType from '../../enums/ResultQuizType';
@@ -17,14 +17,19 @@ import {
 } from '../../redux/slices/questionSlice';
 import {formatTime} from '../../helpers/timerMethods';
 import GoBackButton from '../../components/GoBackButton';
-import { openModalByType } from '../../redux/slices/modalSlice';
+import {openModalByType} from '../../redux/slices/modalSlice';
 import ModalType from '../../enums/ModalType';
+import makeBaseStyles from '../../styles/baseStyles';
 
 function QuizSolving() {
   const initialQuizTimer = 120;
 
   const [secondsOfTimer, setSecondsOfTimer] = useState(initialQuizTimer);
   const [answerState, setAnswerState] = useState(AnswerState.NotAnswered);
+
+  const {fontScale} = useWindowDimensions();
+  const baseStyles = makeBaseStyles(fontScale);
+  const styles = makeStyles(fontScale);
 
   const timerIntervalRef = useRef(null);
 
@@ -114,7 +119,7 @@ function QuizSolving() {
   }, [secondsOfTimer]);
 
   return (
-    <View style={styles.mainContainer}>
+    <View style={baseStyles.mainContainer}>
       <Background type={BackgroundType.Main}>
         <GoBackButton
           action={() => dispatch(openModalByType(ModalType.VerifyQuitQuiz))}
@@ -122,7 +127,7 @@ function QuizSolving() {
 
         <View style={styles.header.container}>
           <Text style={styles.header.text}>
-            Question {competition.currentQuestion + 1} to{' '}
+            QUESTION {competition.currentQuestion + 1} TO{' '}
             {competition.totalQuestion}
           </Text>
         </View>

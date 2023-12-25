@@ -1,14 +1,17 @@
-import {TouchableOpacity, View, Text} from 'react-native';
+import {TouchableOpacity, View, Text, useWindowDimensions} from 'react-native';
 import QuestionDifficult from '../../enums/QuestionDifficult';
 import {useDispatch, useSelector} from 'react-redux';
 import {closeAllModals} from '../../redux/slices/modalSlice';
 import CustomModal from '../CustomModal';
-import baseStyles from '../../styles/baseStyles';
+import makeBaseStyles from '../../styles/baseStyles';
 
 function QuestionDifficultModal() {
   const {competition} = useSelector(state => state.question);
 
   const dispatch = useDispatch();
+
+  const {fontScale} = useWindowDimensions();
+  const baseStyles = makeBaseStyles(fontScale);
 
   const closeModal = () => {
     dispatch(closeAllModals());
@@ -63,7 +66,7 @@ function QuestionDifficultModal() {
       headerText={'Select difficult'}
       contentComponent={<Content />}
       style={{
-        container: {flex: 0.3},
+        container: {flex: 0.4},
         header: {flex: 0.2},
         content: {flex: 0.6},
       }}

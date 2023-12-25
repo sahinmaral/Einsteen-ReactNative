@@ -1,11 +1,14 @@
 import React, {useMemo} from 'react';
-import {Image, Text, View} from 'react-native';
+import {Image, Text, View, useWindowDimensions} from 'react-native';
 import {formatTime} from '../../helpers/timerMethods';
 import defaultUserThumbnail from '../../../assets/images/defaultUserThumbnail.png';
-import styles from './ScoreboardListItem.styles';
+import makeStyles from './ScoreboardListItem.styles';
 import ScoreboardType from '../../enums/ScoreboardType';
 
 function ScoreboardListItem({item, type}) {
+  const {fontScale} = useWindowDimensions();
+  const styles = makeStyles(fontScale);
+
   const userProfileThumbnailSource = useMemo(() => {
     if (item.user) {
       return !item.user.photoURL
@@ -14,11 +17,11 @@ function ScoreboardListItem({item, type}) {
     } else {
       return null;
     }
-  }, [item.user]);
+  }, [item]);
 
   const UserThumbnail = () => {
     if (type === ScoreboardType.AllUsers) {
-      return user.photoURL ? (
+      return item.user.photoURL ? (
         <Image style={styles.thumbnail} source={userProfileThumbnailSource} />
       ) : (
         <Image style={styles.thumbnail} source={defaultUserThumbnail} />

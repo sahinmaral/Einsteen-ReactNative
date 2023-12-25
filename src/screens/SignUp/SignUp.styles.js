@@ -1,13 +1,14 @@
 import {StyleSheet} from 'react-native';
 import theme from '../../styles/theme';
 
-const styles = StyleSheet.create({
-  header: {
-    fontSize: 30,
-    color: theme.colors.white,
-    fontFamily: 'ABeeZee-Regular',
-    marginBottom: 10,
-  },
-});
+const makeStyles = fontScale =>
+  StyleSheet.create({
+    header: {
+      fontSize: 30 / fontScale,
+      color: theme.colors.white,
+      fontFamily: 'ABeeZee-Regular',
+      paddingBottom: 10,
+    },
+  });
 
-export default styles;
+export default makeStyles;

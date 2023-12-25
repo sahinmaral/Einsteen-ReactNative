@@ -1,19 +1,31 @@
 import Background from '../../components/Background';
 import BackgroundType from '../../enums/BackgroundType';
-import {View, Text, TouchableOpacity, FlatList, Pressable} from 'react-native';
-import styles from './CategoriesOfQuestion.styles';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  FlatList,
+  Pressable,
+  useWindowDimensions,
+} from 'react-native';
+import makeStyles from './CategoriesOfQuestion.styles';
 import QuestionCategoryListItem from '../../components/QuestionCategoryListItem';
 import categories from '../../constants/CategoryOfQuestion';
 import {useDispatch, useSelector} from 'react-redux';
 import ModalType from '../../enums/ModalType';
 import {useMemo} from 'react';
-import { openModalByType } from '../../redux/slices/modalSlice';
+import {openModalByType} from '../../redux/slices/modalSlice';
+import makeBaseStyles from '../../styles/baseStyles';
 
 function CategoriesOfQuestion() {
   const {user} = useSelector(state => state.auth);
   const {competition} = useSelector(state => state.question);
 
   const dispatch = useDispatch();
+
+  const {fontScale} = useWindowDimensions();
+  const baseStyles = makeBaseStyles(fontScale);
+  const styles = makeStyles(fontScale);
 
   const sortedCategories = useMemo(() => {
     return categories.sort(function (a, b) {
@@ -24,10 +36,10 @@ function CategoriesOfQuestion() {
   }, [categories]);
 
   return (
-    <Pressable style={styles.mainContainer}>
+    <Pressable style={baseStyles.mainContainer}>
       <Background type={BackgroundType.Main}>
         <View style={styles.container}>
-          <View style={{marginVertical: 50}}>
+          <View style={{paddingVertical: 50}}>
             <Text style={styles.header.username}>
               We are glad to have you {user.firstName}!
             </Text>

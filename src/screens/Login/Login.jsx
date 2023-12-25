@@ -1,5 +1,5 @@
-import {View, Text, TextInput} from 'react-native';
-import styles from './Login.styles';
+import {View, Text, TextInput, useWindowDimensions} from 'react-native';
+import makeStyles from './Login.styles';
 import Background from '../../components/Background';
 import {useState} from 'react';
 import {TouchableOpacity} from 'react-native';
@@ -14,7 +14,7 @@ import LoginUserSchema from '../../schemas/LoginUserSchema';
 import {useDispatch} from 'react-redux';
 import {setUser} from '../../redux/slices/authSlice';
 import {mapFirebaseDocumentObjectWithId} from '../../helpers/objectMethods';
-import baseStyles from '../../styles/baseStyles';
+import makeBaseStyles from '../../styles/baseStyles';
 import GoBackButton from '../../components/GoBackButton';
 import {getUserAdditionalInformationsByUserId} from '../../services/firebase/FirestoreService';
 import {loginUser} from '../../services/firebase/AuthService';
@@ -27,6 +27,9 @@ function Login({navigation}) {
   const dispatch = useDispatch();
 
   const loadingIndicator = useLoadingIndicator(fetchResult);
+  const {fontScale} = useWindowDimensions();
+  const baseStyles = makeBaseStyles(fontScale);
+  const styles = makeStyles(fontScale);
 
   const handleLoginUser = async values => {
     try {
@@ -79,8 +82,8 @@ function Login({navigation}) {
     <View style={baseStyles.mainContainer}>
       <Formik
         initialValues={{
-          email: 'sahin.maral@hotmail.com',
-          password: 'Abc1234.',
+          email: '',
+          password: '',
         }}
         validationSchema={LoginUserSchema}
         onSubmit={handleLoginUser}>

@@ -5,14 +5,15 @@ import {
   TextInput,
   KeyboardAvoidingView,
   ScrollView,
+  useWindowDimensions,
 } from 'react-native';
 import Background from '../../components/Background';
 import BackgroundType from '../../enums/BackgroundType';
-import styles from './UpdatePassword.styles';
+import makeStyles from './UpdatePassword.styles';
 import {Formik} from 'formik';
 import theme from '../../styles/theme';
+import makeBaseStyles from '../../styles/baseStyles';
 import useLoadingIndicator from '../../hooks/useLoadingIndicator';
-import useKeyboardState from '../../hooks/useKeyboardState';
 import {useState} from 'react';
 import {default as FeatherIcon} from 'react-native-vector-icons/Feather';
 import UpdatePasswordSchema from '../../schemas/UpdatePasswordSchema';
@@ -23,7 +24,9 @@ function UpdatePassword({navigation}) {
   const [isFetchExecuted, setIsFetchExecuted] = useState(false);
 
   const loadingIndicator = useLoadingIndicator(isFetchExecuted);
-  const {isKeyboardVisible} = useKeyboardState();
+  const {fontScale} = useWindowDimensions();
+  const baseStyles = makeBaseStyles(fontScale);
+  const styles = makeStyles(fontScale);
 
   const toast = useToast();
 
@@ -66,7 +69,7 @@ function UpdatePassword({navigation}) {
   };
 
   return (
-    <View style={styles.mainContainer}>
+    <View style={baseStyles.mainContainer}>
       <Formik
         initialValues={{
           currentPassword: '',

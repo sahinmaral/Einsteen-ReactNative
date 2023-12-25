@@ -1,4 +1,4 @@
-import {TouchableOpacity, View, Text} from 'react-native';
+import {TouchableOpacity, View, Text, useWindowDimensions} from 'react-native';
 import {useToast} from 'react-native-toast-notifications';
 import theme from '../../styles/theme';
 import {closeAllModals} from '../../redux/slices/modalSlice';
@@ -6,14 +6,18 @@ import {useDispatch} from 'react-redux';
 import {
   getCurrentUser,
   googleSignOut,
+  signOut,
 } from '../../services/firebase/AuthService';
 import CustomModal from '../CustomModal';
-import baseStyles from '../../styles/baseStyles';
+import makeBaseStyles from '../../styles/baseStyles';
 
 function VerifySignOutUserModalContent() {
   const toast = useToast();
 
   const dispatch = useDispatch();
+
+  const {fontScale} = useWindowDimensions();
+  const baseStyles = makeBaseStyles(fontScale);
 
   const handleSignOut = async () => {
     try {
@@ -86,7 +90,7 @@ function VerifySignOutUserModalContent() {
       contentComponent={<Content />}
       style={{
         container: {flex: 0.2},
-        header: {flex: 0.8},
+        header: {flex: 0.5},
         content: {flex: 0.6},
       }}
     />

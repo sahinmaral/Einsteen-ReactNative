@@ -3,25 +3,23 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  Dimensions,
   ScrollView,
   KeyboardAvoidingView,
+  useWindowDimensions,
 } from 'react-native';
-import styles from './SignUp.styles';
+import makeStyles from './SignUp.styles';
 import Background from '../../components/Background';
 import {useState} from 'react';
 import theme from '../../styles/theme';
 import BackgroundType from '../../enums/BackgroundType';
 import {default as FeatherIcon} from 'react-native-vector-icons/Feather';
-import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
 import {useToast} from 'react-native-toast-notifications';
 import useLoadingIndicator from '../../hooks/useLoadingIndicator';
 import firebaseErrorMessages from '../../constants/FirebaseErrorMessages';
 import GoBackButton from '../../components/GoBackButton';
 import SignUpUserSchema from '../../schemas/SignUpUserSchema';
 import {Formik} from 'formik';
-import baseStyles from '../../styles/baseStyles';
+import makeBaseStyles from '../../styles/baseStyles';
 import {saveUsersAdditionalInformations} from '../../services/firebase/FirestoreService';
 import {createUser} from '../../services/firebase/AuthService';
 
@@ -34,6 +32,9 @@ function SignUp({navigation}) {
   const toast = useToast();
 
   const loadingIndicator = useLoadingIndicator(fetchResult.loading);
+  const {fontScale} = useWindowDimensions();
+  const baseStyles = makeBaseStyles(fontScale);
+  const styles = makeStyles(fontScale);
 
   const signUpUser = async values => {
     try {

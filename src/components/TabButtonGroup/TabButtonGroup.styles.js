@@ -1,26 +1,27 @@
 import {StyleSheet} from 'react-native';
 import theme from '../../styles/theme';
 
-const styles = StyleSheet.create({
-  container: {
-    justifyContent: 'flex-end',
-    paddingVertical: 10,
-    flexDirection: 'row',
-    backgroundColor: theme.colors.veryDarkPink,
-  },
-  button: {
+const makeStyles = fontScale =>
+  StyleSheet.create({
     container: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      gap: 10,
+      justifyContent: 'flex-end',
+      paddingVertical: 10,
+      flexDirection: 'row',
+      backgroundColor: theme.colors.veryDarkPink,
     },
-    text: {
-      color: theme.colors.white,
-      fontSize: 14,
-      fontFamily: 'ABeeZee-Regular',
+    button: {
+      container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: 10,
+      },
+      text: {
+        color: theme.colors.white,
+        fontFamily: 'ABeeZee-Regular',
+        fontSize: 14 / fontScale,
+      },
     },
-  },
-});
+  });
 
-export default styles;
+export default makeStyles;

@@ -1,13 +1,12 @@
 import React, {useState} from 'react';
-import {TouchableOpacity, View, Text, Modal} from 'react-native';
+import {TouchableOpacity, View, Text, useWindowDimensions} from 'react-native';
 import {default as FeatherIcon} from 'react-native-vector-icons/Feather';
-import styles from './UpdateProfilePhotoModal.styles';
+import makeStyles from './UpdateProfilePhotoModal.styles';
 import {useDispatch, useSelector} from 'react-redux';
 import {closeAllModals} from '../../redux/slices/modalSlice';
 import theme from '../../styles/theme';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {useToast} from 'react-native-toast-notifications';
-import auth from '@react-native-firebase/auth';
 import useLoadingIndicator from '../../hooks/useLoadingIndicator';
 import {setUser} from '../../redux/slices/authSlice';
 import firestore from '@react-native-firebase/firestore';
@@ -27,6 +26,9 @@ function UpdateProfilePhotoModal() {
   const {user} = useSelector(state => state.auth);
 
   const [selectedPhoto, setSelectedPhoto] = useState(null);
+
+  const {fontScale} = useWindowDimensions();
+  const styles = makeStyles(fontScale);
 
   const [photoProcessFetch, setPhotoProcessFetch] = useState({
     isPhotoUploading: false,

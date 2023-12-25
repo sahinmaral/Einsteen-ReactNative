@@ -1,5 +1,5 @@
-import {TouchableOpacity, View, Text} from 'react-native';
-import baseStyles from '../../styles/baseStyles';
+import {TouchableOpacity, View, Text, useWindowDimensions} from 'react-native';
+import makeBaseStyles from '../../styles/baseStyles';
 import {useDispatch, useSelector} from 'react-redux';
 import {closeAllModals} from '../../redux/slices/modalSlice';
 import CustomModal from '../CustomModal';
@@ -8,6 +8,9 @@ function QuestionCountModal() {
   const {competition} = useSelector(state => state.question);
 
   const dispatch = useDispatch();
+
+  const {fontScale} = useWindowDimensions();
+  const baseStyles = makeBaseStyles(fontScale);
 
   const closeModal = () => {
     dispatch(closeAllModals());
@@ -75,7 +78,7 @@ function QuestionCountModal() {
       headerText={'Select question count'}
       contentComponent={<Content />}
       style={{
-        container: {flex: 0.3},
+        container: {flex: 0.4},
         header: {flex: 0.2},
         content: {flex: 0.6},
       }}
