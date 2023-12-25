@@ -3,15 +3,15 @@ import {BackHandler} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {openModalByType} from '../../redux/slices/modalSlice';
 import ModalType from '../../enums/ModalType';
-import VerifySignOutUserModalContent from '../VerifySignOutUserModalContent';
-import QuestionDifficultModalContent from '../QuestionDifficultModalContent';
-import QuestionCountModalContent from '../QuestionCountModalContent';
-import VerifyQuitQuizModalContent from '../VerifyQuitQuizModalContent';
-import UpdateProfilePhotoModalContent from '../UpdateProfilePhotoModalContent';
-import FilterScoresByQuestionDifficultModalContent from '../FilterScoresByQuestionDifficultModalContent';
-import FilterScoresByQuestionCountModalContent from '../FilterScoresByQuestionCountModalContent';
-import FilterScoresByQuestionCategoryModalContent from '../FilterScoresByQuestionCategoryModalContent';
 import {useNavigation} from '@react-navigation/native';
+import VerifySignOutUserModal from '../VerifySignOutUserModal';
+import QuestionDifficultModal from '../QuestionDifficultModal';
+import QuestionCountModal from '../QuestionCountModal';
+import UpdateProfilePhotoModal from '../UpdateProfilePhotoModal';
+import VerifyQuitQuizModal from '../VerifyQuitQuizModal';
+import FilterScoresByQuestionDifficultModal from '../FilterScoresByQuestionDifficultModal';
+import FilterScoresByQuestionCountModal from '../FilterScoresByQuestionCountModal';
+import FilterScoresByQuestionCategoryModal from '../FilterScoresByQuestionCategoryModal';
 
 function ModalNavigator({currentRoute}) {
   const dispatch = useDispatch();
@@ -65,21 +65,21 @@ function ModalNavigator({currentRoute}) {
   }, [currentRoute]);
 
   if (modal.visibility.verifySignedOut) {
-    return <VerifySignOutUserModalContent />;
+    return <VerifySignOutUserModal />;
   } else if (modal.visibility.chooseDifficult) {
-    return <QuestionDifficultModalContent />;
+    return <QuestionDifficultModal />;
   } else if (modal.visibility.chooseQuestionCount) {
-    return <QuestionCountModalContent />;
-  } else if (modal.visibility.verifyQuitQuiz) {
-    return <VerifyQuitQuizModalContent />;
+    return <QuestionCountModal />;
   } else if (modal.visibility.updateProfilePhoto) {
-    return <UpdateProfilePhotoModalContent />;
+    return <UpdateProfilePhotoModal />;
+  } else if (modal.visibility.verifyQuitQuiz) {
+    return <VerifyQuitQuizModal />;
   } else if (modal.visibility.filterScoresByQuestionDifficult) {
-    return <FilterScoresByQuestionDifficultModalContent />;
-  } else if (modal.visibility.filterScoresByQuestionCount) {
-    return <FilterScoresByQuestionCountModalContent />;
-  } else if (modal.visibility.filterScoresByQuestionCategory) {
-    return <FilterScoresByQuestionCategoryModalContent />;
+    return <FilterScoresByQuestionDifficultModal />;
+    } else if (modal.visibility.filterScoresByQuestionCount) {
+      return <FilterScoresByQuestionCountModal />;
+    } else if (modal.visibility.filterScoresByQuestionCategory) {
+      return <FilterScoresByQuestionCategoryModal />;
   } else {
     return null;
   }

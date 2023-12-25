@@ -15,6 +15,8 @@ import he from 'he';
 import {useToast} from 'react-native-toast-notifications';
 import useLoadingIndicator from '../../hooks/useLoadingIndicator';
 import {default as FeatherIcon} from 'react-native-vector-icons/Feather';
+import GoBackButton from '../../components/GoBackButton';
+import baseStyles from '../../styles/baseStyles';
 
 function ChosenCategory({navigation}) {
   const {competition} = useSelector(state => state.question);
@@ -79,16 +81,10 @@ function ChosenCategory({navigation}) {
   };
 
   return (
-    <View style={styles.mainContainer}>
+    <View style={baseStyles.mainContainer}>
       <Background type={BackgroundType.Main}>
         <View>
-          <View>
-            <TouchableOpacity
-              onPress={() => navigation.goBack()}
-              style={styles.goBackButton.container}>
-              <Text style={styles.goBackButton.text}>Back</Text>
-            </TouchableOpacity>
-          </View>
+          <GoBackButton />
 
           <View style={styles.header.container}>
             <Text style={styles.header.text}>

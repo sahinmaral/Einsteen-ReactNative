@@ -14,6 +14,7 @@ export const modalSlice = createSlice({
   },
   reducers: {
     openModalByType: (state, action) => {
+
       switch (action.payload) {
         case ModalType.VerifySignedOut:
           state.visibility = {

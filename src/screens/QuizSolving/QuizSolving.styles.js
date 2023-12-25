@@ -5,19 +5,8 @@ const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
   },
-  goBackButton: {
-    container: {
-      paddingLeft: 15,
-      paddingTop: 25,
-    },
-    text: {
-      fontFamily: 'AbeeZee-Regular',
-      fontSize: 15,
-      color: theme.colors.white,
-    },
-  },
   header: {
-    container: {marginTop: 25, marginLeft: 25},
+    container: {flex: 0.1, paddingLeft:25},
     text: {
       fontFamily: 'Anton',
       fontSize: 25,
@@ -33,7 +22,7 @@ const styles = StyleSheet.create({
     },
   },
   content: {
-    container: {marginLeft: 25, marginTop: 25},
+    container: {flex: 0.5, paddingLeft:25},
     quiz: {
       width: '85%',
       fontFamily: 'ABeeZee-Regular',
@@ -64,7 +53,7 @@ const styles = StyleSheet.create({
     },
   },
   answerResult: {
-    container: {marginLeft: 25, marginTop: 25},
+    container: {flex: 0.1},
     text: {
       normal: {
         fontFamily: 'ABeeZee-Regular',
@@ -82,9 +71,9 @@ const styles = StyleSheet.create({
     container: {
       position: 'absolute',
       bottom: 0,
-      backgroundColor: theme.colors.darkGray,
       width: '100%',
       height: 80,
+      backgroundColor: theme.colors.darkGray,
       ...theme.shadows.larger,
     },
     remaining: {

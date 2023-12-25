@@ -1,21 +1,8 @@
 import {StyleSheet} from 'react-native';
 import theme from '../../styles/theme';
+import baseStyles from '../../styles/baseStyles';
 
 const styles = StyleSheet.create({
-  mainContainer: {
-    flex: 1,
-  },
-  goBackButton: {
-    container: {
-      marginTop: 25,
-      marginLeft: 25,
-    },
-    text: {
-      fontSize: 15,
-      fontFamily: 'ABeeZee-Regular',
-      color: theme.colors.white,
-    },
-  },
   header: {
     container: {padding: 25, alignItems: 'center'},
     text: {
@@ -45,28 +32,22 @@ const styles = StyleSheet.create({
   },
   buttonGroup: {
     container: {
-      width:"100%",
+      width: '100%',
       position: 'absolute',
       flexDirection: 'row',
-      justifyContent:"space-between",
+      justifyContent: 'space-between',
       bottom: 30,
     },
     submitButton: {
       container: {
-        flex:0.45,
-        gap:10,
-        flexDirection: "row",
-        backgroundColor: theme.colors.darkPurple,
-        justifyContent: 'center',
-        alignItems: 'center',
+        ...baseStyles.button.submitButton.container,
         ...theme.shadows.larger,
+        flex: 0.45,
       },
       text: {
-        fontSize: 28,
+        ...baseStyles.button.submitButton.text,
         letterSpacing: 1.5,
-        fontFamily: 'Anton',
         textTransform: 'uppercase',
-        color: theme.colors.white,
       },
     },
   },

@@ -46,6 +46,7 @@ Ayrıca kullanıcı, kendi yapmış olduğu yüksek skorları da inceleyebilir.
     "react-native-safe-area-context": "^4.7.4",
     "react-native-screens": "^3.29.0",
     "react-native-toast-notifications": "^3.4.0",
+    "react-native-uuid": "^2.0.1",
     "react-native-vector-icons": "^10.0.2",
     "react-redux": "^9.0.2",
     "yup": "^1.3.2"

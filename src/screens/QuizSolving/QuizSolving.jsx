@@ -1,8 +1,7 @@
-import {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import {useEffect, useMemo, useRef, useState} from 'react';
 import {View, TouchableOpacity, Text, BackHandler} from 'react-native';
 import styles from './QuizSolving.styles';
 import Background from '../../components/Background';
-import VerifyQuitQuizModalContent from '../../components/VerifyQuitQuizModalContent';
 import BackgroundType from '../../enums/BackgroundType';
 import ResultQuizType from '../../enums/ResultQuizType';
 import AnswerState from '../../enums/AnswerState';
@@ -17,7 +16,8 @@ import {
   setResultTypeOfCompetition,
 } from '../../redux/slices/questionSlice';
 import {formatTime} from '../../helpers/timerMethods';
-import {openModalByType} from '../../redux/slices/modalSlice';
+import GoBackButton from '../../components/GoBackButton';
+import { openModalByType } from '../../redux/slices/modalSlice';
 import ModalType from '../../enums/ModalType';
 
 function QuizSolving() {
@@ -116,59 +116,51 @@ function QuizSolving() {
   return (
     <View style={styles.mainContainer}>
       <Background type={BackgroundType.Main}>
-        <View>
-          <View>
-            <TouchableOpacity
-              onPress={() =>
-                dispatch(openModalByType(ModalType.VerifyQuitQuiz))
-              }
-              style={styles.goBackButton.container}>
-              <Text style={styles.goBackButton.text}>Back</Text>
-            </TouchableOpacity>
-          </View>
+        <GoBackButton
+          action={() => dispatch(openModalByType(ModalType.VerifyQuitQuiz))}
+        />
 
-          <View style={styles.header.container}>
-            <Text style={styles.header.text}>
-              Question {competition.currentQuestion + 1} to{' '}
-              {competition.totalQuestion}
-            </Text>
-          </View>
+        <View style={styles.header.container}>
+          <Text style={styles.header.text}>
+            Question {competition.currentQuestion + 1} to{' '}
+            {competition.totalQuestion}
+          </Text>
+        </View>
 
-          <View style={styles.content.container}>
-            <Text style={styles.content.quiz}>
-              {he.decode(currentQuestion.question)}
-            </Text>
+        <View style={styles.content.container}>
+          <Text style={styles.content.quiz}>
+            {he.decode(currentQuestion.question)}
+          </Text>
 
-            {answersOfQuestion.map((answer, index) => {
-              return (
-                <TouchableOpacity
-                  disabled={answerState !== AnswerState.NotAnswered}
-                  onPress={() => checkCorrectAnswer(answer)}
-                  style={styles.content.answers.container}
-                  key={index}>
-                  <Text style={styles.content.answers.mark}>
-                    {String.fromCharCode(65 + index)}.
-                  </Text>
-                  <Text style={styles.content.answers.text}>
-                    {he.decode(answer)}
-                  </Text>
-                </TouchableOpacity>
-              );
-            })}
-          </View>
+          {answersOfQuestion.map((answer, index) => {
+            return (
+              <TouchableOpacity
+                disabled={answerState !== AnswerState.NotAnswered}
+                onPress={() => checkCorrectAnswer(answer)}
+                style={styles.content.answers.container}
+                key={index}>
+                <Text style={styles.content.answers.mark}>
+                  {String.fromCharCode(65 + index)}.
+                </Text>
+                <Text style={styles.content.answers.text}>
+                  {he.decode(answer)}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
+        </View>
 
+        <View style={styles.answerResult.container}>
           {answerState !== AnswerState.NotAnswered && (
-            <View style={styles.answerResult.container}>
-              <Text
-                style={[
-                  styles.answerResult.text.normal,
-                  answerState === AnswerState.Correct
-                    ? styles.answerResult.text.correct
-                    : styles.answerResult.text.wrong,
-                ]}>
-                {answerStateText}
-              </Text>
-            </View>
+            <Text
+              style={[
+                styles.answerResult.text.normal,
+                answerState === AnswerState.Correct
+                  ? styles.answerResult.text.correct
+                  : styles.answerResult.text.wrong,
+              ]}>
+              {answerStateText}
+            </Text>
           )}
         </View>
 

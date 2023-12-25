@@ -1,8 +1,4 @@
-import {
-  View,
-  Text,
-  TextInput,
-} from 'react-native';
+import {View, Text, TextInput} from 'react-native';
 import styles from './Login.styles';
 import Background from '../../components/Background';
 import {useState} from 'react';
@@ -10,8 +6,6 @@ import {TouchableOpacity} from 'react-native';
 import theme from '../../styles/theme';
 import BackgroundType from '../../enums/BackgroundType';
 import {default as FeatherIcon} from 'react-native-vector-icons/Feather';
-import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
 import {useToast} from 'react-native-toast-notifications';
 import useLoadingIndicator from '../../hooks/useLoadingIndicator';
 import firebaseErrorMessages from '../../constants/FirebaseErrorMessages';
@@ -20,6 +14,10 @@ import LoginUserSchema from '../../schemas/LoginUserSchema';
 import {useDispatch} from 'react-redux';
 import {setUser} from '../../redux/slices/authSlice';
 import {mapFirebaseDocumentObjectWithId} from '../../helpers/objectMethods';
+import baseStyles from '../../styles/baseStyles';
+import GoBackButton from '../../components/GoBackButton';
+import {getUserAdditionalInformationsByUserId} from '../../services/firebase/FirestoreService';
+import {loginUser} from '../../services/firebase/AuthService';
 
 function Login({navigation}) {
   const [fetchResult, setFetchResult] = useState(false);
@@ -30,25 +28,14 @@ function Login({navigation}) {
 
   const loadingIndicator = useLoadingIndicator(fetchResult);
 
-  const loginUserWithAuthentication = async (email, password) => {
-    return auth().signInWithEmailAndPassword(email, password);
-  };
-
-  const getUsersAdditionalInformations = async savedUserId => {
-    return await firestore().collection('users').doc(savedUserId).get();
-  };
-
-  const loginUser = async values => {
+  const handleLoginUser = async values => {
     try {
       setFetchResult(true);
 
-      const savedUser = await loginUserWithAuthentication(
-        values.email,
-        values.password,
-      );
+      const savedUser = await loginUser(values.email, values.password);
 
       const savedUserAdditionalInformationsDocumentSnapshot =
-        await getUsersAdditionalInformations(savedUser.user.uid);
+        await getUserAdditionalInformationsByUserId(savedUser.user.uid);
 
       const savedUserAdditionalInformations = mapFirebaseDocumentObjectWithId(
         savedUserAdditionalInformationsDocumentSnapshot,
@@ -89,14 +76,14 @@ function Login({navigation}) {
   };
 
   return (
-    <View style={styles.mainContainer}>
+    <View style={baseStyles.mainContainer}>
       <Formik
         initialValues={{
           email: 'sahin.maral@hotmail.com',
           password: 'Abc1234.',
         }}
         validationSchema={LoginUserSchema}
-        onSubmit={loginUser}>
+        onSubmit={handleLoginUser}>
         {({
           handleChange,
           handleBlur,
@@ -106,13 +93,7 @@ function Login({navigation}) {
           touched,
         }) => (
           <Background type={BackgroundType.Auth}>
-            <View style={{flex: 0.1}}>
-              <TouchableOpacity
-                onPress={() => navigation.goBack()}
-                style={styles.goBackButton.container}>
-                <Text style={styles.goBackButton.text}>Back</Text>
-              </TouchableOpacity>
-            </View>
+            <GoBackButton />
 
             <View
               style={{
@@ -120,10 +101,10 @@ function Login({navigation}) {
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
-              <View style={styles.container}>
+              <View style={baseStyles.form.auth.container}>
                 <Text style={styles.header}>Login</Text>
                 <TextInput
-                  style={styles.form.input}
+                  style={baseStyles.form.auth.input}
                   placeholderTextColor={theme.colors.darkGrayishRed}
                   onChangeText={handleChange('email')}
                   onBlur={handleBlur('email')}
@@ -134,7 +115,7 @@ function Login({navigation}) {
                   <Text style={styles.form.error}>*{errors.email}</Text>
                 ) : null}
                 <TextInput
-                  style={styles.form.input}
+                  style={baseStyles.form.auth.input}
                   placeholderTextColor={theme.colors.darkGrayishRed}
                   onChangeText={handleChange('password')}
                   onBlur={handleBlur('password')}
@@ -143,16 +124,16 @@ function Login({navigation}) {
                   placeholder="Password"
                 />
                 {errors.password && touched.password ? (
-                  <Text style={styles.form.error}>*{errors.password}</Text>
+                  <Text style={baseStyles.form.error}>*{errors.password}</Text>
                 ) : null}
               </View>
             </View>
 
             <TouchableOpacity
-              style={styles.submitButton.container}
+              style={baseStyles.button.submitButton.container}
               onPress={handleSubmit}
               disabled={fetchResult}>
-              <Text style={styles.submitButton.text}>OKAY</Text>
+              <Text style={baseStyles.button.submitButton.text}>OKAY</Text>
               {fetchResult && (
                 <View
                   style={{

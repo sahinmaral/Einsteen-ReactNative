@@ -1,21 +1,15 @@
 import Background from '../../components/Background';
 import BackgroundType from '../../enums/BackgroundType';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  FlatList,
-  Pressable,
-} from 'react-native';
+import {View, Text, TouchableOpacity, FlatList, Pressable} from 'react-native';
 import styles from './CategoriesOfQuestion.styles';
 import QuestionCategoryListItem from '../../components/QuestionCategoryListItem';
 import categories from '../../constants/CategoryOfQuestion';
 import {useDispatch, useSelector} from 'react-redux';
 import ModalType from '../../enums/ModalType';
-import { useMemo } from 'react';
+import {useMemo} from 'react';
+import { openModalByType } from '../../redux/slices/modalSlice';
 
-function CategoriesOfQuestion({navigation}) {
-
+function CategoriesOfQuestion() {
   const {user} = useSelector(state => state.auth);
   const {competition} = useSelector(state => state.question);
 

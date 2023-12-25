@@ -13,9 +13,8 @@ import LottieView from 'lottie-react-native';
 import loadingAnimation from '../../../assets/animations/loading.json';
 import serverErrorBanner from '../../../assets/images/500.png';
 import {useDispatch, useSelector} from 'react-redux';
-import {getUserAllScoresByUserId} from '../../services/FirebaseService';
+import {getUserAllScoresByUserId} from '../../services/firebase/FirestoreService';
 import ScoreboardType from '../../enums/ScoreboardType';
-import {openModalByType} from '../../redux/slices/modalSlice';
 import ModalType from '../../enums/ModalType';
 import {
   clearUserScoreFilter,
@@ -24,6 +23,7 @@ import {
 import {default as MaterialCommunityIcons} from 'react-native-vector-icons/MaterialCommunityIcons';
 import theme from '../../styles/theme';
 import QuestionDifficult from '../../enums/QuestionDifficult';
+import {openModalByType} from '../../redux/slices/modalSlice';
 
 function ScoreboardOfUser({navigation}) {
   const [fetchResult, setFetchResult] = useState({
@@ -80,6 +80,8 @@ function ScoreboardOfUser({navigation}) {
         loading: false,
       });
     } catch (error) {
+      console.log(error);
+
       setFetchResult({
         ...fetchResult,
         error: 'Error during fetching scoreboard',
@@ -92,6 +94,8 @@ function ScoreboardOfUser({navigation}) {
     if (fetchResult.loading) return;
 
     const scoreDatas = fetchResult.data;
+
+    if (!scoreDatas) return;
 
     return scoreDatas
       .filter(

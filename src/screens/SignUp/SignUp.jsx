@@ -18,9 +18,12 @@ import firestore from '@react-native-firebase/firestore';
 import {useToast} from 'react-native-toast-notifications';
 import useLoadingIndicator from '../../hooks/useLoadingIndicator';
 import firebaseErrorMessages from '../../constants/FirebaseErrorMessages';
-import {Formik} from 'formik';
+import GoBackButton from '../../components/GoBackButton';
 import SignUpUserSchema from '../../schemas/SignUpUserSchema';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {Formik} from 'formik';
+import baseStyles from '../../styles/baseStyles';
+import {saveUsersAdditionalInformations} from '../../services/firebase/FirestoreService';
+import {createUser} from '../../services/firebase/AuthService';
 
 function SignUp({navigation}) {
   const [fetchResult, setFetchResult] = useState({
@@ -32,18 +35,6 @@ function SignUp({navigation}) {
 
   const loadingIndicator = useLoadingIndicator(fetchResult.loading);
 
-  const createUserAtAuthentication = async (email, password) => {
-    return await auth().createUserWithEmailAndPassword(email, password);
-  };
-
-  const saveUsersAdditionalInformations = async (savedUserId, values) => {
-    return await firestore().collection('users').doc(savedUserId).set({
-      firstName: values.firstName,
-      lastName: values.lastName.toUpperCase(),
-      email: values.email,
-    });
-  };
-
   const signUpUser = async values => {
     try {
       setFetchResult({
@@ -51,10 +42,7 @@ function SignUp({navigation}) {
         loading: true,
       });
 
-      const savedUser = await createUserAtAuthentication(
-        values.email,
-        values.password,
-      );
+      const savedUser = await createUser(values.email, values.password);
 
       await saveUsersAdditionalInformations(savedUser.user.uid, values);
 
@@ -89,7 +77,7 @@ function SignUp({navigation}) {
   };
 
   return (
-    <View style={styles.mainContainer}>
+    <View style={baseStyles.mainContainer}>
       <Formik
         initialValues={{
           firstName: '',
@@ -110,13 +98,7 @@ function SignUp({navigation}) {
           touched,
         }) => (
           <Background type={BackgroundType.Auth}>
-            <View style={{flex: 0.1}}>
-              <TouchableOpacity
-                onPress={() => navigation.goBack()}
-                style={styles.goBackButton.container}>
-                <Text style={styles.goBackButton.text}>Back</Text>
-              </TouchableOpacity>
-            </View>
+            <GoBackButton />
 
             <KeyboardAvoidingView behavior={'padding'} style={{flex: 0.8}}>
               <ScrollView
@@ -125,10 +107,10 @@ function SignUp({navigation}) {
                   style={{
                     alignItems: 'center',
                   }}>
-                  <View style={styles.container}>
+                  <View style={baseStyles.form.auth.container}>
                     <Text style={styles.header}>Sign Up</Text>
                     <TextInput
-                      style={styles.form.input}
+                      style={baseStyles.form.auth.input}
                       placeholderTextColor={theme.colors.darkGrayishRed}
                       onChangeText={handleChange('firstName')}
                       onBlur={handleBlur('firstName')}
@@ -136,10 +118,12 @@ function SignUp({navigation}) {
                       placeholder="First Name"
                     />
                     {errors.firstName && touched.firstName ? (
-                      <Text style={styles.form.error}>*{errors.firstName}</Text>
+                      <Text style={baseStyles.form.error}>
+                        *{errors.firstName}
+                      </Text>
                     ) : null}
                     <TextInput
-                      style={styles.form.input}
+                      style={baseStyles.form.auth.input}
                       placeholderTextColor={theme.colors.darkGrayishRed}
                       onChangeText={handleChange('lastName')}
                       onBlur={handleBlur('lastName')}
@@ -147,10 +131,12 @@ function SignUp({navigation}) {
                       placeholder="Last Name"
                     />
                     {errors.lastName && touched.lastName ? (
-                      <Text style={styles.form.error}>*{errors.lastName}</Text>
+                      <Text style={baseStyles.form.error}>
+                        *{errors.lastName}
+                      </Text>
                     ) : null}
                     <TextInput
-                      style={styles.form.input}
+                      style={baseStyles.form.auth.input}
                       placeholderTextColor={theme.colors.darkGrayishRed}
                       onChangeText={handleChange('email')}
                       onBlur={handleBlur('email')}
@@ -158,10 +144,10 @@ function SignUp({navigation}) {
                       placeholder="Email"
                     />
                     {errors.email && touched.email ? (
-                      <Text style={styles.form.error}>*{errors.email}</Text>
+                      <Text style={baseStyles.form.error}>*{errors.email}</Text>
                     ) : null}
                     <TextInput
-                      style={styles.form.input}
+                      style={baseStyles.form.auth.input}
                       placeholderTextColor={theme.colors.darkGrayishRed}
                       onChangeText={handleChange('password')}
                       onBlur={handleBlur('password')}
@@ -170,10 +156,12 @@ function SignUp({navigation}) {
                       placeholder="Password"
                     />
                     {errors.password && touched.password ? (
-                      <Text style={styles.form.error}>*{errors.password}</Text>
+                      <Text style={baseStyles.form.error}>
+                        *{errors.password}
+                      </Text>
                     ) : null}
                     <TextInput
-                      style={styles.form.input}
+                      style={baseStyles.form.auth.input}
                       placeholderTextColor={theme.colors.darkGrayishRed}
                       onChangeText={handleChange('passwordRepeat')}
                       onBlur={handleBlur('passwordRepeat')}
@@ -182,7 +170,7 @@ function SignUp({navigation}) {
                       placeholder="Password repeat"
                     />
                     {errors.passwordRepeat && touched.passwordRepeat ? (
-                      <Text style={styles.form.error}>
+                      <Text style={baseStyles.form.error}>
                         *{errors.passwordRepeat}
                       </Text>
                     ) : null}
@@ -192,10 +180,10 @@ function SignUp({navigation}) {
             </KeyboardAvoidingView>
 
             <TouchableOpacity
-              style={styles.submitButton.container}
+              style={baseStyles.button.submitButton.container}
               onPress={handleSubmit}
               disabled={fetchResult.loading}>
-              <Text style={styles.submitButton.text}>OKAY</Text>
+              <Text style={baseStyles.button.submitButton.text}>OKAY</Text>
               {fetchResult.loading && (
                 <View
                   style={{
