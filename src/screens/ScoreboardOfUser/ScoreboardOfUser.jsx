@@ -152,87 +152,94 @@ function ScoreboardOfUser({navigation}) {
             </Text>
           </View>
 
-          <View style={styles.header.optionsButtonGroup.container}>
-            <TouchableOpacity
-              style={[
-                styles.header.optionsButtonGroup.optionsButton.container,
-                {
-                  backgroundColor: theme.colors.lightGreen,
-                },
-              ]}
-              onPress={() => dispatch(clearUserScoreFilter())}>
-              <Text
+          {!fetchResult.loading && fetchResult.data ? (
+            <View style={styles.header.optionsButtonGroup.container}>
+              <TouchableOpacity
                 style={[
-                  styles.header.optionsButtonGroup.optionsButton.text,
-                  {color: theme.colors.black},
-                ]}>
-                Clear filter
-              </Text>
-            </TouchableOpacity>
+                  styles.header.optionsButtonGroup.optionsButton.container,
+                  {
+                    backgroundColor: theme.colors.lightGreen,
+                  },
+                ]}
+                onPress={() => dispatch(clearUserScoreFilter())}>
+                <Text
+                  style={[
+                    styles.header.optionsButtonGroup.optionsButton.text,
+                    {color: theme.colors.black},
+                  ]}>
+                  Clear filter
+                </Text>
+              </TouchableOpacity>
 
-            <TouchableOpacity
-              style={styles.header.optionsButtonGroup.optionsButton.container}
-              onPress={() =>
-                dispatch(
-                  openModalByType(ModalType.FilterScoresByQuestionCategory),
-                )
-              }>
-              <Text style={styles.header.optionsButtonGroup.optionsButton.text}>
-                Category:{' '}
-                {user.scores.filter.selected.category === null
-                  ? 'Any'
-                  : user.scores.filter.selected.category.value}
-              </Text>
-              <MaterialCommunityIcons
-                name="arrow-down-drop-circle"
-                color={'white'}
-                size={24}
-              />
-            </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.header.optionsButtonGroup.optionsButton.container}
+                onPress={() =>
+                  dispatch(
+                    openModalByType(ModalType.FilterScoresByQuestionCategory),
+                  )
+                }>
+                <Text
+                  style={styles.header.optionsButtonGroup.optionsButton.text}>
+                  Category:{' '}
+                  {user.scores.filter.selected.category === null
+                    ? 'Any'
+                    : user.scores.filter.selected.category.value}
+                </Text>
+                <MaterialCommunityIcons
+                  name="arrow-down-drop-circle"
+                  color={'white'}
+                  size={24}
+                />
+              </TouchableOpacity>
 
-            <TouchableOpacity
-              style={styles.header.optionsButtonGroup.optionsButton.container}
-              onPress={() =>
-                dispatch(
-                  openModalByType(ModalType.FilterScoresByQuestionDifficult),
-                )
-              }>
-              <Text style={styles.header.optionsButtonGroup.optionsButton.text}>
-                Difficult:{' '}
-                {user.scores.filter.selected.difficult === null
-                  ? 'Any'
-                  : user.scores.filter.selected.difficult}
-              </Text>
-              <MaterialCommunityIcons
-                name="arrow-down-drop-circle"
-                color={'white'}
-                size={24}
-              />
-            </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.header.optionsButtonGroup.optionsButton.container}
+                onPress={() =>
+                  dispatch(
+                    openModalByType(ModalType.FilterScoresByQuestionDifficult),
+                  )
+                }>
+                <Text
+                  style={styles.header.optionsButtonGroup.optionsButton.text}>
+                  Difficult:{' '}
+                  {user.scores.filter.selected.difficult === null
+                    ? 'Any'
+                    : user.scores.filter.selected.difficult}
+                </Text>
+                <MaterialCommunityIcons
+                  name="arrow-down-drop-circle"
+                  color={'white'}
+                  size={24}
+                />
+              </TouchableOpacity>
 
-            <TouchableOpacity
-              style={styles.header.optionsButtonGroup.optionsButton.container}
-              onPress={() =>
-                dispatch(openModalByType(ModalType.FilterScoresByQuestionCount))
-              }>
-              <Text style={styles.header.optionsButtonGroup.optionsButton.text}>
-                Question Count:{' '}
-                {user.scores.filter.selected.questionCount === null
-                  ? 'Any'
-                  : user.scores.filter.selected.questionCount}
-              </Text>
-              <MaterialCommunityIcons
-                name="arrow-down-drop-circle"
-                color={'white'}
-                size={24}
-              />
-            </TouchableOpacity>
-          </View>
+              <TouchableOpacity
+                style={styles.header.optionsButtonGroup.optionsButton.container}
+                onPress={() =>
+                  dispatch(
+                    openModalByType(ModalType.FilterScoresByQuestionCount),
+                  )
+                }>
+                <Text
+                  style={styles.header.optionsButtonGroup.optionsButton.text}>
+                  Question Count:{' '}
+                  {user.scores.filter.selected.questionCount === null
+                    ? 'Any'
+                    : user.scores.filter.selected.questionCount}
+                </Text>
+                <MaterialCommunityIcons
+                  name="arrow-down-drop-circle"
+                  color={'white'}
+                  size={24}
+                />
+              </TouchableOpacity>
+            </View>
+          ) : null}
 
           <View style={{flex: 0.65}}>
-            {fetchResult.loading && <Loading />}
+            {fetchResult.loading ? <Loading /> : null}
 
-            {!fetchResult.loading && fetchResult.error && (
+            {!fetchResult.loading && fetchResult.error ? (
               <View
                 style={{
                   flex: 1,
@@ -243,11 +250,10 @@ function ScoreboardOfUser({navigation}) {
                 <Image style={styles.error.banner} source={serverErrorBanner} />
                 <Text style={styles.error.text}>{fetchResult.error}</Text>
               </View>
-            )}
+            ) : null}
 
-            {!fetchResult.loading &&
-              !fetchResult.error &&
-              (fetchResult.data ? (
+            {!fetchResult.loading && !fetchResult.error ? (
+              fetchResult.data ? (
                 <View style={{flex: 1}}>
                   <FlatList
                     data={filteredScoreDatas}
@@ -267,7 +273,8 @@ function ScoreboardOfUser({navigation}) {
                     quiz.
                   </Text>
                 </View>
-              ))}
+              )
+            ) : null}
           </View>
         </View>
       </Background>

@@ -1,5 +1,11 @@
-import React, {useState} from 'react';
-import {View, Text, TouchableOpacity, useWindowDimensions} from 'react-native';
+import {useState,useEffect} from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  useWindowDimensions,
+  Platform,
+} from 'react-native';
 import theme from '../../styles/theme';
 import makeBaseStyles from '../../styles/baseStyles';
 import makeStyles from './Welcome.styles';

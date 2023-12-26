@@ -4,6 +4,7 @@ import {formatTime} from '../../helpers/timerMethods';
 import defaultUserThumbnail from '../../../assets/images/defaultUserThumbnail.png';
 import makeStyles from './ScoreboardListItem.styles';
 import ScoreboardType from '../../enums/ScoreboardType';
+import FastImage from 'react-native-fast-image';
 
 function ScoreboardListItem({item, type}) {
   const {fontScale} = useWindowDimensions();
@@ -22,9 +23,9 @@ function ScoreboardListItem({item, type}) {
   const UserThumbnail = () => {
     if (type === ScoreboardType.AllUsers) {
       return item.user.photoURL ? (
-        <Image style={styles.thumbnail} source={userProfileThumbnailSource} />
+        <FastImage style={styles.thumbnail} source={userProfileThumbnailSource} />
       ) : (
-        <Image style={styles.thumbnail} source={defaultUserThumbnail} />
+        <FastImage style={styles.thumbnail} source={defaultUserThumbnail} />
       );
     }
 

@@ -40,8 +40,8 @@ const makeStyles = fontScale =>
     menu: {
       container: {
         gap: 10,
-        padding: 10,
-        flex: 0.55,
+        paddingHorizontal:10,
+        flex: 0.6,
       },
       button: {
         container: {

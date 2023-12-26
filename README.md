@@ -59,6 +59,12 @@ Ayrıca kullanıcı, kendi yapmış olduğu yüksek skorları da inceleyebilir.
 
 # Ekran Görüntüleri
 
+## Uygulamaya girmeden önceki yükleme ekranı
+
+![Uygulamaya girmeden önceki yükleme ekranı](./screenshots/splash_screen.png)
+
+![Başlangıç Ekranı](./screenshots/welcome.png)
+
 ## Başlangıç Ekranı
 
 ![Başlangıç Ekranı](./screenshots/welcome.png)
@@ -103,6 +109,11 @@ Ayrıca kullanıcı, kendi yapmış olduğu yüksek skorları da inceleyebilir.
 
 ![Scoreboard Ekranı Boş](./screenshots/scoreboard_empty.png)
 ![Scoreboard Ekranı](./screenshots/scoreboard.png)
+
+## Kullanıcıların kendi skorlarını kontrol edebileceği scoreboard ekranı
+
+![Kullanıcıların kendi skorlarını kontrol edebileceği scoreboard ekranı boş](./screenshots/scoreboard_user_empty.png)
+![Kullanıcıların kendi skorlarını kontrol edebileceği scoreboard ekranı](./screenshots/scoreboard_user.png)
 
 ## Uygulamadan Çıkış Yaptıktan Sonra Modal
 

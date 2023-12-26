@@ -2,7 +2,6 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Image,
   useWindowDimensions,
 } from 'react-native';
 import Background from '../../components/Background';
@@ -18,6 +17,7 @@ import {useMemo} from 'react';
 import auth from '@react-native-firebase/auth';
 import {useToast} from 'react-native-toast-notifications';
 import makeBaseStyles from '../../styles/baseStyles';
+import FastImage from 'react-native-fast-image';
 
 function UserProfile({navigation}) {
   const {user} = useSelector(state => state.auth);
@@ -46,15 +46,17 @@ function UserProfile({navigation}) {
               flex: 0.5,
               backgroundColor: theme.colors.darkPurple,
             }}></View>
-          <View style={{flex: 0.5, backgroundColor: theme.colors.white}}></View>
+          <View style={{flex: 0.4, backgroundColor: theme.colors.white}}></View>
         </View>
 
         <View style={styles.header.informations.container}>
           <View>
-            <Image
+            <FastImage
               style={styles.header.informations.thumbnail}
               source={userProfileThumbnailSource}
+              resizeMode={FastImage.resizeMode.stretch}
             />
+
             <TouchableOpacity
               onPress={() => {
                 if (!isUserSigningInWithPassword) {

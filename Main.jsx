@@ -26,8 +26,8 @@ import {View} from 'react-native';
 import {ToastProvider} from 'react-native-toast-notifications';
 import auth from '@react-native-firebase/auth';
 import {removeUser} from './src/redux/slices/authSlice';
-import SplashScreen from 'react-native-splash-screen';
 import useCheckInternet from './src/hooks/useCheckInternet';
+import SplashScreen from 'react-native-splash-screen';
 
 const Stack = createStackNavigator();
 
@@ -101,7 +101,7 @@ function MainStackNavigatorRoutes() {
         routes: [{name: 'CheckInternet'}],
       });
     }
-  }, [isConnected,navigation]);
+  }, [isConnected, navigation]);
 
   return (
     <Stack.Navigator
