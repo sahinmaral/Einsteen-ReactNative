@@ -41,7 +41,7 @@ const makeStyles = fontScale =>
       container: {
         gap: 10,
         paddingHorizontal:10,
-        flex: 0.6,
+        flex: 0.5,
       },
       button: {
         container: {

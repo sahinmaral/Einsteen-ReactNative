@@ -25,8 +25,11 @@ Kullanıcı profilinde eğer kullanıcı mail adresi ve şifre ile giriş yapmı
 
 Ayrıca kullanıcı, kendi yapmış olduğu yüksek skorları da inceleyebilir.
 
+<a href="https://github.com/sahinmaral/Einsteen-ReactNative/blob/main/app-release.apk" title="Uygulama APK dosyası">Link</a> üzerinden uygulamayı APK olarak indirip inceleyebilirsiniz.
+
 # Kullanılan paketler ve versiyonları
 
+    "@react-native-community/netinfo": "^11.2.1",
     "@react-native-firebase/app": "^18.7.3",
     "@react-native-firebase/auth": "^18.7.3",
     "@react-native-firebase/firestore": "^18.7.3",
@@ -43,10 +46,12 @@ Ayrıca kullanıcı, kendi yapmış olduğu yüksek skorları da inceleyebilir.
     "lottie-react-native": "^6.4.1",
     "react": "18.2.0",
     "react-native": "^0.73.0",
+    "react-native-fast-image": "^8.6.3",
     "react-native-gesture-handler": "^2.14.0",
     "react-native-image-picker": "^7.1.0",
     "react-native-safe-area-context": "^4.7.4",
     "react-native-screens": "^3.29.0",
+    "react-native-splash-screen": "^3.3.0",
     "react-native-toast-notifications": "^3.4.0",
     "react-native-uuid": "^2.0.1",
     "react-native-vector-icons": "^10.0.2",

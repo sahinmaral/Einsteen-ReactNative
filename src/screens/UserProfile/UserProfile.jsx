@@ -81,7 +81,7 @@ function UserProfile({navigation}) {
           </View>
           <View
             style={{
-              marginTop: 10,
+              paddingTop:10,
               justifyContent: 'center',
               alignItems: 'center',
             }}>
