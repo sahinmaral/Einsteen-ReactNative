@@ -1,4 +1,4 @@
-import {useState,useEffect} from 'react';
+import {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -124,12 +124,12 @@ function Welcome({navigation}) {
           </View>
 
           <View style={styles.buttonGroup.container}>
-            <TouchableOpacity style={styles.buttonGroup.button.container}>
-              <Text
-                style={styles.buttonGroup.button.text}
-                onPress={() => {
-                  navigation.navigate('Login');
-                }}>
+            <TouchableOpacity
+              style={styles.buttonGroup.button.container}
+              onPress={() => {
+                navigation.navigate('Login');
+              }}>
+              <Text style={styles.buttonGroup.button.text}>
                 Login with email
               </Text>
             </TouchableOpacity>
